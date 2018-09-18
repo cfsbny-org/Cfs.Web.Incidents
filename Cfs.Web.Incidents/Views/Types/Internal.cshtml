@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Internal Events";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<p>Check all that apply:</p>
+
+<div class="form-control check-list column-list" data-bind="foreach: reportableTypes">
+    <label><input type="checkbox" data-bind="attr: { value: incidentTypeId }, checked: $parent.selectedTypes" /> <span data-bind="text: incidentTypeText"></span></label>
+</div>
+
+<button data-bind="click: SaveTypes"><span class="icon-floppy-disk"></span> Save</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var TypesViewModel = function () {
+            var self = this;
+
+            self.reportableTypes = ko.observableArray();
+            self.selectedTypes = ko.observableArray();
+
+            self.GetTypes = function () {
+                Get('/api/types/' + parent._reportId + '/1/3', null, function (data) { self.reportableTypes(data); });
+            };
+
+
+            self.SaveTypes = function () {
+                var incidents = [];
+
+                self.selectedTypes().forEach(function (item) {
+                    var incidentType = { 'incidentId': parent._reportId, 'incidentTypeId': item };
+                    incidents.push(incidentType);
+                });
+
+
+
+                Post('/api/types/', { '': incidents }, function () { parent.$.fancybox.close(); });
+            };
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+            self.GetTypes();
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new TypesViewModel());
+        });
+
+
+    </script>
+}
+
+
+
+
+

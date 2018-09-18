@@ -1,0 +1,455 @@
+﻿@{
+    ViewBag.Title = "New Incident Report";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<div class="flex-form">
+
+    <div class="form-control">
+        <label>
+            Staff Name:
+            <input type="text" size="50" maxlength="80" data-bind="value: staffName" />
+        </label>
+    </div>
+
+    <div class="form-control">
+        <label>
+            Title:
+            <input type="text" size="80" maxlength="255" data-bind="value: staffTitle" />
+        </label>
+    </div>
+
+
+    <div class="form-control">
+        <label>
+            Program:
+            <select data-bind="options: programs, optionsText: 'programTitle', optionsCaption: 'Select Program', value: selectedProgram" required></select>
+        </label>
+    </div>
+
+</div>
+
+<div data-bind="visible: selectedProgram">
+    <div class="flex-form">
+
+
+
+        <div class="form-control">
+            <label>
+                Name of Client:
+                <input type="text" size="50" maxlength="80" placeholder="Last Name, First Name" required data-bind="value: clientName, autoComplete:{ minLength: 3, source: SearchClients, select: SelectClient }" />
+            </label>
+        </div>
+
+
+
+        <div class="form-control">
+            <label>
+                Client ID (if applicable):
+                <input type="text" size="50" maxlength="50" placeholder="Enter the ID of the client in your program's system." data-bind="value: clientId" />
+            </label>
+        </div>
+
+
+
+        <div class="form-control">
+            <label>
+                Date of Birth:
+                <input type="text" size="12" maxlength="12" placeholder="**Required**" data-bind="value: clientDob" required />
+            </label>
+        </div>
+
+        <div class="form-control">
+            <label>
+                Gender:
+            </label>
+            <label class="radio-label"><input type="radio" name="client-gender" value="F" data-bind="checked: clientGender" /> Female</label>
+            <label class="radio-label"><input type="radio" name="client-gender" value="M" data-bind="checked: clientGender" /> Male</label>
+        </div>
+
+
+
+
+        <div class="form-control" data-bind="visible: reportType() == 1">
+            <label>Oversight Agency:</label>
+            <label class="radio-label">
+                <input type="radio" name="oversight-agency" value="OCFS" data-bind="checked: reportingAgency" /> OCFS
+            </label>
+            <label class="radio-label"><input type="radio" name="oversight-agency" value="OMH " data-bind="checked: reportingAgency" /> OMH</label>
+        </div>
+
+    </div>
+
+    <div class="flex-form">
+
+        <div class="form-control">
+            <label>
+                Incident Location:
+                <input type="text" size="50" maxlength="255" placeholder="Building and room, office or general location" required data-bind="value: incidentLocation" />
+            </label>
+        </div>
+
+        <div class="form-control">
+            <label>Approximate Date:</label>
+            <label class="radio-label"><input type="radio" name="is-approximate" data-bind="checked: isApproximate, checkedValue: true" /> Yes</label>
+            <label class="radio-label"><input type="radio" name="is-approximate" data-bind="checked: isApproximate, checkedValue: false" /> No</label>
+        </div>
+
+        <div class="control-group" data-bind="visible: !(isApproximate())">
+            <div class="form-control">
+                <label>
+                    Date of Event/Incident:
+                    <input type="text" size="12" maxlength="12" placeholder="**Required**" data-bind="datepicker: incidentDate, datepickerOptions: { maxDate: '0' }" required />
+                </label>
+            </div>
+
+
+            <div class="form-control">
+                <label>
+                    Time of Event/Incident:
+                    <input type="text" size="12" maxlength="12" placeholder="xx:xx AM" data-bind="value: incidentTime" required />
+                </label>
+            </div>
+        </div>
+
+
+        <div class="control-group" data-bind="visible: isApproximate">
+            <div class="form-control">
+                <label>
+                    Month:
+                    <select data-bind="value: incidentMonth">
+                        <option value="01">Jan</option>
+                        <option value="02">Feb</option>
+                        <option value="03">Mar</option>
+                        <option value="04">Apr</option>
+                        <option value="05">May</option>
+                        <option value="06">Jun</option>
+                        <option value="07">Jul</option>
+                        <option value="08">Aug</option>
+                        <option value="09">Sep</option>
+                        <option value="10">Oct</option>
+                        <option value="11">Nov</option>
+                        <option value="12">Dec</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-control">
+                <label>
+                    Year:
+                    <input type="number" size="4" maxlength="4" min="1900" data-bind="value: incidentYear, attr: { max: maxYear }" />
+                </label>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <section>
+        <h3>Report Auto-Notifications</h3>
+
+        <div class="flex-form">
+
+            <table class="auto-width">
+                <thead>
+                    <tr>
+                        <th>Staff</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: notifications">
+                    <!-- ko if: isRemovable -->
+                    <tr>
+                        <td><span data-bind="text: staffName"></span></td>
+                        <td><span data-bind="text: notifyPartyText"></span></td>
+                        <td><button class="action-button" data-bind="click: $parent.RemoveNotifier"><span class="icon-bin"></span></button></td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
+
+
+            <div class="form-control" data-bind="visible: showSignature">
+                <label>
+                    <span data-bind="text: notifierMessage"></span>
+                    <input type="password" size="30" maxlength="30" required placeholder="Enter password here." data-bind="value: signature" />
+                </label>
+                <button data-bind="click: Validate"><span class="icon-bin"></span> Remove</button>
+                <button data-bind="click: CancelRemove"><span class="icon-cross"></span> Cancel</button>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+</div>
+
+
+
+
+<button data-bind="click: CreateReport"><span class="icon-book"></span> Create</button>
+<button data-bind="click: CancelReport"><span class="icon-cross"></span> Cancel</button>
+
+
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+
+
+        var ReportVieModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+
+            self.programs = ko.observableArray();
+
+
+            self.selectedProgram = ko.observable();
+
+            self.userId = ko.observable(0);
+            self.staffName = ko.observable().extend({ required: true });
+            self.staffTitle = ko.observable('').extend({ required: true });
+            self.clientName = ko.observable('').extend({ required: true });
+            self.clientId = ko.observable('');
+            self.clientDob = ko.observable('').extend({ required: true });
+            self.clientGender = ko.observable('').extend({ required: true });
+            self.isApproximate = ko.observable(false);
+            self.incidentMonth = ko.observable();
+            self.incidentYear = ko.observable(new Date().getFullYear());
+            self.incidentDate = ko.observable(moment().format('M/D/YYYY'));
+            self.incidentTime = ko.observable().extend({
+                required: {
+                    onlyIf: function () {
+                        return self.isApproximate() === false;
+                    }
+                },
+                pattern: {
+                    message: 'Input must be in the form of xx:xx AM',
+                    params: patterns.time
+                }
+            });
+            self.programId = ko.observable().extend({ required: true });
+            self.reportingAgency = ko.observable('');
+            self.incidentLocation = ko.observable().extend({ required: true });
+            self.reportType = ko.observable().extend({ required: true });
+            self.createdStation = ko.observable('');
+
+            self.notifications = ko.observableArray();
+            self.showSignature = ko.observable(false);
+            self.signature = ko.observable();
+            self.notifier = [];
+            self.notifierMessage = ko.observable('');
+
+
+            self.maxYear = ko.observable(new Date().getFullYear());
+
+
+
+            self.Initialize = function () {
+
+                var storage = window.localStorage;
+
+                self.userId(storage.getItem('userId'));
+                self.staffName(storage.getItem('fullName'));
+                self.staffTitle(storage.getItem('jobTitle'));
+                self.createdStation(storage.getItem('stationInfo'));
+
+                self.GetPrograms();
+
+                self.selectedProgram.subscribe(function (data) {
+                    self.programId(data.incidentProgramId);
+                    self.reportType(data.incidentReportTypeId);
+                    self.reportingAgency(data.reportingAgency);
+
+
+                    // GET AUTO-NOTIFICATIONS
+                    Get('/api/programnotifiers/' + self.programId(), null, function (notifiers) {
+                        self.notifications(notifiers);
+                    });
+
+                });
+
+
+                
+
+            };
+
+
+
+
+            self.GetPrograms = function () {
+                Get('/api/programs', null, function (data) { self.programs(data); });
+            };
+
+
+            self.CreateReport = function () {
+                
+
+                var regex = /^([0]?[1-9]|1[0-2]):([0-5]\d)\s?(AM|PM)$/i;
+                
+                if (!regex.test(self.incidentTime()))
+                {
+                    alert('Incident time is not in the correct format of hh:mm AM.');
+                    return;
+                }
+
+                var incidentDateTime = new Date();
+                
+
+                if (self.isApproximate()) {
+                    
+                    incidentDateTime = moment(self.incidentYear() + '-' + self.incidentMonth() + '-01', 'YYYY-MM-DD').format('M/D/YYYY');
+                    
+                }
+                else {
+                    
+                    var incidentDate = moment(new Date(self.incidentDate())).format('M/D/YYYY');
+                    
+                    incidentDateTime = moment(incidentDate + " " + self.incidentTime()).format('M/D/YYYY HH:mm');
+                    
+                    if (moment(incidentDateTime) > moment(new Date())) {
+                        ShowWarningNotification('Cannot create an incident report for a future date.')
+                        return;
+                    }
+                }
+
+                
+
+
+                if (self.errors().length == 0) {
+                    var report = {
+                        incidentId: 0,
+                        incidentReportTypeId: self.reportType(),
+                        userId: self.userId(),
+                        staffName: self.staffName(),
+                        staffTitle: self.staffTitle(),
+                        clientName: self.clientName(),
+                        clientId: self.clientId(),
+                        clientDob: self.clientDob(),
+                        clientGender: self.clientGender(),
+                        incidentDate: incidentDateTime,
+                        isApproximate: self.isApproximate(),
+                        programId: self.programId(),
+                        reportingAgency: self.reportingAgency(),
+                        incidentLocation: self.incidentLocation(),
+                        createdStamp: moment(new Date()).format('M/D/YYYY H:mm'),
+                        createdStation: self.createdStation(),
+                        statusId: 1,
+                        currentUser: self.userId(),
+                        lastModified: moment(new Date()).format('M/D/YYYY H:mm'),
+                        lastModifiedBy: self.userId()
+                    };
+
+                    Post('/api/reports', report, function (data) {
+                        parent._reportId = data;
+
+                        // ADD NOTIFICATIONS TO REPORT
+                        self.notifications().forEach(function (notification) {
+                            notification.incidentId = data;
+                            notification.clientName = self.clientName();
+                        });
+                        Post('/api/notifications/automatic', { '': self.notifications() }, function () { });
+
+                        parent.$.fancybox.close();
+                    });
+
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+
+
+            };
+
+
+
+            self.SearchClients = function (request, response) {
+                Get('/api/anasazi/search/?query=' + request.term + '&subUnit=' + self.selectedProgram().azSubUnit, null, function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.clientName,
+                            value: item.caseNumber,
+                            birthDate: moment(item.birthDate).format('M/D/YYYY'),
+                            clientGender: item.clientGender
+                        };
+                    }));
+                });
+            };
+
+
+            self.SelectClient = function (event, ui) {
+                self.clientId(ui.item.value);
+                self.clientName(ui.item.label);
+                self.clientDob(ui.item.birthDate);
+                self.clientGender(ui.item.clientGender);
+                return false;
+            };
+
+
+
+            self.RemoveNotifier = function (selectedNotifier) {
+                self.notifier = selectedNotifier;
+                self.notifierMessage('Enter your CFS password to remove ' + selectedNotifier.staffName + '.');
+                self.showSignature(true);
+            };
+
+
+            self.CancelRemove = function () {
+                self.notifier = [];
+                self.notifierMessage('');
+                self.showSignature(false);
+            }
+
+
+            self.Validate = function () {
+
+                if (self.signature()) {
+                    Post('/api/user/validate', { '': self.signature() }, function (verified) {
+                        if (verified) {
+                            self.notifications.remove(self.notifier);
+                            self.notifier = [];
+                            self.notifierMessage('');
+                            self.showSignature(false);
+                        }
+                        else {
+                            ShowErrorNotification('Signature could not be validated.');
+                        }
+                    });
+                }
+            };
+
+
+            self.CancelReport = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+
+
+            self.Initialize();
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ReportVieModel());
+        });
+
+
+
+    </script>
+}

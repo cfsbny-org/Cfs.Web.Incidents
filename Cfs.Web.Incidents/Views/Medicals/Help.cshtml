@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Nurses Dashboard: Help and Information";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<h3>Open Reports</h3>
+
+<p>
+    This listing shows all open incident reports for
+    Residential Services.  Under the <b>Medical Assessment(s) Present</b> heading,
+    a red medical aid kit icon (<span class="icon-aid-kit"></span>) means no medical assessments have been completed
+    for that report; a green icon signifies a medical assessment is present.
+</p>
+
+<p>
+    A report with a status of <b>New</b> is an incident report that has recently been
+    created, but it has not been saved or completed by the staff member.  A status of
+    <b>In Progress</b> means the user has completed a portion of the incident report,
+    but not all sections are complete.  <b>Pending Medical Assessment</b> means the
+    report has been completed by the user.
+</p>
+
+<button><span class="icon-cross"></span> Close</button>
+
+@section Scripts {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('button').click(function (e) {
+                e.stopPropagation();
+                parent.$.fancybox.close();
+            });
+        });
+    </script>
+}

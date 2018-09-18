@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Report Diary";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Close</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date/Time</th>
+            <th>Staff</th>
+            <th>Details</th>
+            <th>Station</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: diary">
+        <tr>
+            <td><span data-bind="text: moment(logDateTime).format('M/D/YYYY h:mm a')"></span></td>
+            <td><span data-bind="text: staffName"></span></td>
+            <td><span data-bind="text: logDetails"></span></td>
+            <td><span data-bind="text: userStation"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var DiaryViewModel = function () {
+            var self = this;
+
+            self.diary = ko.observableArray();
+
+            self.Initialize = function () {
+                Get('/api/log/' + parent._reportId, null, function (data) { self.diary(data); });
+            };
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+            self.Initialize();
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new DiaryViewModel());
+        });
+    </script>
+}

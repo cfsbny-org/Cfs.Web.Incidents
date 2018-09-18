@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "Approve Report";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="loading-spinner" data-bind="visible: isValidating"><span class="icon-spinner10"></span> Checking report...</div>
+
+<div data-bind="visible: !isValidating()">
+    <p class="is-completed" data-bind="visible: isReportValid"><span class="icon-checkmark"></span> Report is Valid</p>
+    <p class="is-not-completed" data-bind="visible: !(isReportValid())"><span class="icon-cross"></span> Report Not Valid</p>
+</div>
+
+<table class="auto-width validation-summary">
+    <tbody data-bind="foreach: summary">
+        <tr>
+            <td>
+                <!-- ko if: isValid -->
+                <span class="icon-checkmark is-completed"></span>
+                <!-- /ko -->
+                <!-- ko ifnot: isValid -->
+                <span class="icon-cross is-not-completed"></span>
+                <!-- /ko -->
+            </td>
+            <td><span data-bind="text: validMessage"></span></td>
+            <td><span data-bind="text: correctiveAction"></span></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<div data-bind="visible: !isValidating()">
+
+    <div class="form-control" data-bind="visible: isReportValid">
+        <label>Signature: <input type="password" size="40" maxlength="30" data-bind="value: signature" required placeholder="Sign with your Windows password." /></label>
+    </div>
+
+    <div data-bind="visible: isReportValid">
+        <button data-bind="click: ApproveReport"><span class="icon-lock"></span> Final Approve</button>
+    </div>
+</div>
+
+<button data-bind="click: CancelApproval"><span class="icon-cross"></span> Cancel</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var SignatureViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+
+            self.isValidating = ko.observable(true);
+            self.isReportValid = ko.observable(true);
+            self.summary = ko.observableArray();
+            self.signature = ko.observable().extend({ required: { message: 'Please enter your password before submitting.' } });
+
+            self.Initalize = function () {
+
+
+                var reportValidated = true;
+
+                Get('/api/details/saved/' + parent._reportId, null, function (validated) {
+                    if (!validated) {
+
+                        reportValidated = false;
+
+                        self.summary.push({
+                            isValid: false,
+                            validMessage: 'Report not saved.',
+                            correctiveAction: 'Please close this view and click the Save and Close button.'
+                        });
+                    }
+                    else {
+
+
+
+
+                        self.summary.push({
+                            isValid: true,
+                            validMessage: 'Report saved.',
+                            correctiveAction: ''
+                        });
+                    }
+
+                    Get('/api/types/validate/' + parent._reportId, null, function (validated) {
+                        if (!validated) {
+
+                            reportValidated = false;
+
+                            self.summary.push({
+                                isValid: false,
+                                validMessage: 'No incidents added to report.',
+                                correctiveAction: 'Please add a reportable or significant incident to the report.'
+                            });
+
+                            self.isValidating(false);
+                            self.isReportValid(reportValidated);
+
+                            return;
+                        }
+                        else {
+
+
+                            self.summary.push({
+                                isValid: true,
+                                validMessage: 'Incidents validated.',
+                                correctiveAction: ''
+                            });
+                        }
+
+                        Get('/api/notifications/validate/' + parent._reportId, null, function (validated) {
+
+                            if (!validated) {
+
+                                reportValidated = false;
+
+                                self.summary.push({
+                                    isValid: false,
+                                    validMessage: 'One or more Reportable or Significant Incidents require a call to the Justice Center.',
+                                    correctiveAction: 'Please add a notification of the Justice Center call with the call ID.'
+                                });
+                            }
+                            else {
+
+
+                                self.summary.push({
+                                    isValid: true,
+                                    validMessage: 'Notifications validated.',
+                                    correctiveAction: ''
+                                });
+                            }
+
+                            self.isValidating(false);
+                            self.isReportValid(reportValidated);
+
+                        }); // Get('/api/notifications/validate/'....
+
+
+                       
+
+                    });  // Get('/api/types/validate/'....
+
+                }); // Get('/api/details/saved/'....
+
+
+            };
+
+
+
+            self.CancelApproval = function () {
+                parent.$.fancybox.close();
+            }
+
+
+            self.ApproveReport = function () {
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+
+                    var signature = {
+                        incidentId: parent._reportId,
+                        statusId: 3,
+                        currentUser: storage.getItem('userId'),
+                        userName: storage.getItem('userName'),
+                        signature: self.signature(),
+                        staffName: storage.getItem('fullName'),
+                        staffTitle: storage.getItem('jobTitle'),
+                        stationName: storage.getItem('stationInfo')
+                    };
+
+                    Post('/api/reports/approve', signature, function (data) {
+                        parent.window.location = "/";
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+            self.Initalize();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new SignatureViewModel());
+        });
+
+
+
+    </script>
+}

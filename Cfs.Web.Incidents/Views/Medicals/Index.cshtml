@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Nursing Dashboard";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section Sidebar {
+
+    <nav>
+        <ul>
+            <li><a href="/"><span class="icon-home3"></span> Home Page</a></li>
+            <li><a href="#" data-bind="click: ShowHelp"><span class="icon-question"></span> Help and Information</a></li>
+        </ul>
+    </nav>
+}
+
+<h1>CFS Incident Reports: Nurses Dashboard</h1>
+
+<h2>Open Reports</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Assessment Date</th>
+            <th>Assessed By</th>
+            <th>Assessment Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: reports">
+        <tr data-bind="css: { alternateRow: $index() % 2 == 0 }">
+            <td data-bind="attr: { rowspan: (medicals.length + 1) }">
+                <h3 data-bind="text: clientName"></h3>
+                <h4><span class="data-span" data-bind="text: programTitle"></span></h4>
+                <div>
+                    <div>Incident Date: <span class="data-span" data-bind="text: moment(incidentDate).format('M/D/YYYY')"></span></div>
+                    <div>Report Created: <span class="data-span" data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></div>
+                    <div>Created By: <span class="data-span" data-bind="text: createdByName"></span></div>
+                    <div>Current Status: <span class="data-span" data-bind="text: currentStatus"></span></div>
+                </div>
+            </td>
+            <!-- ko if: medicals.length == 0 -->
+            <td colspan="3"><span class="data-warning">No Medical Assessments have been created for this incident.</span></td>
+            <!-- /ko -->
+            <!-- ko if: medicals.length > 0 -->
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- /ko-->
+            <td>
+                <button class="action-button" data-bind="click: $parent.AddMedical"><span class="icon-aid-kit"></span> Add Assessment</button>
+            </td>
+        </tr>
+        <!-- ko foreach: medicals -->
+        <tr data-bind="css: { alternateRow: $parentContext.$index() % 2 == 0 }" class="small-row">
+            <td><span data-bind="text: moment(medAssmntDate).format('M/D/YYYY')"></span></td>
+            <td><span data-bind="text: staffName"></span></td>
+            <td>
+                <!-- ko ifnot: isOpen -->
+                <span>Completed</span>
+                <!-- /ko-->
+                <!-- ko if: isOpen -->
+                <span>Incomplete</span>
+                <!-- /ko-->
+            </td>
+            <td>
+                <!-- ko ifnot: isOpen -->
+                <button class="action-button" data-bind="click: $root.ViewMedical"><span class="icon-binoculars"></span> View</button>
+                <!-- /ko-->
+                <!-- ko if: isOpen -->
+                <button class="action-button" data-bind="click: $root.EditMedical"><span class="icon-pencil"></span> Open</button>
+                <!-- /ko-->
+            </td>
+        </tr>
+        <!-- /ko -->
+        @*<tr>
+            <td colspan="5">&nbsp;</td>
+        </tr>*@
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var ReportsViewModel = function () {
+            var self = this;
+
+            self.reports = ko.observableArray();
+
+
+            self.GetReports = function () {
+                Get('/api/reports/open/1', null, function (data) {
+                    self.reports(data);
+                });
+            };
+
+
+
+            self.AddMedical = function (report) {
+                window.location = '/Medicals/New/' + report.incidentId;
+            };
+
+
+            self.ViewMedical = function (medical) {
+                window.location = '/Medicals/View/' + medical.incidentMedicalId;
+            };
+
+
+            self.EditMedical = function (medical) {
+                window.location = '/Medicals/Edit/' + medical.incidentMedicalId;
+            };
+
+
+
+            self.ShowHelp = function () {
+                OpenDialog('/Medicals/Help');
+            };
+
+            self.GetReports();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ReportsViewModel());
+        });
+
+    </script>
+
+
+}

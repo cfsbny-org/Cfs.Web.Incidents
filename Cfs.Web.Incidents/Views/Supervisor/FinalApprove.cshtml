@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Approve/Deny Report";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="form-control">
+    <label>Signature: <input type="password" size="40" maxlength="30" data-bind="value: signature" required placeholder="Sign with your Windows password." /></label>
+</div>
+
+
+<div class="form-control">
+    <label>
+        Comments:
+        <textarea rows="4" cols="120" maxlength="250" spellcheck="true" placeholder="Comments on what is missing from the report or anything needing correction." data-bind="value: comments"></textarea>
+    </label>
+</div>
+
+<button data-bind="click: ApproveReport.bind($data, true)"><span class="icon-checkmark"></span> Approve</button>
+<button data-bind="click: ApproveReport.bind($data, false)"><span class="icon-blocked"></span> Reject</button>
+<button data-bind="click: CancelApproval"><span class="icon-cross"></span> Cancel</button>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var SignatureViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.signature = ko.observable().extend({ required: { message: 'Please enter your password before submitting.' } });
+            self.comments = ko.observable();
+
+
+            self.CancelApproval = function () {
+                parent.$.fancybox.close();
+            }
+
+
+            self.ApproveReport = function (isApproved) {
+
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+
+                    var reportStatusId = 0;
+                    var approvalStatusId = 0;
+                    if (isApproved) {
+                        reportStatusId = 4;
+                        approvalStatusId = 3;
+                    }
+                    else {
+                        reportStatusId = 2;
+                        approvalStatusId = 4;
+                    }
+
+                    var signature = {
+                        incidentId: parent._reportId,
+                        statusId: reportStatusId,
+                        currentUser: storage.getItem('userId'),
+                        userName: storage.getItem('userName'),
+                        signature: self.signature(),
+                        staffName: storage.getItem('fullName'),
+                        staffTitle: storage.getItem('jobTitle'),
+                        stationName: storage.getItem('stationInfo'),
+                        approvalStatusId: approvalStatusId,
+                        approvalComments: self.comments()
+                    };
+
+                    Post('/api/reports/supervisor/approve', signature, function (data) {
+                        parent.window.location = "/";
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+            //self.Initalize();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new SignatureViewModel());
+        });
+
+
+
+    </script>
+}

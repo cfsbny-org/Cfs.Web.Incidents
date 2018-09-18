@@ -1,0 +1,374 @@
+﻿@{
+    ViewBag.Title = "Medical Assessment :: CFS Incident Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+
+@section SideBar {
+
+    <nav>
+        <ul>
+            <li><a data-bind="click: CloseAssessment"><span class="icon-cross"></span> Close Assessment</a></li>
+            <li><a data-bind="click: SaveAssessment"><span class="icon-floppy-disk"></span> Save Assessment</a></li>
+            <li><a data-bind="click: ApproveAssessment, visible: incidentMedicalId() != 0"><span class="icon-lock"></span> Final Approve</a></li>
+        </ul>
+    </nav>
+
+        
+
+    
+}
+
+
+<h1>Residential Services Incident Report</h1>
+
+<div class="report-scroll-header">
+    <h2 data-bind="text: clientName"></h2>
+    <div><span>Incident Date:</span> <span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span></div>
+    @*<div class="report-header-info">
+            <div><span>Incident Date:</span> <span data-bind="text: moment(incidentDate()).format('M/D/YYYY')"></span></div>
+            <div><span>Program:</span> <span data-bind="text: programTitle"></span></div>
+            <div><span>Created By:</span> <span data-bind="text: createdByName"></span></div>
+            <div><span>Created Date/Time:</span> <span data-bind="text: moment(createdStamp()).format('M/D/YYYY h:mm a')"></span></div>
+        </div>*@
+</div>
+
+<section class="report-header">
+
+    <header><h2 data-bind="text: clientName"></h2></header>
+    <div class="report-header-info">
+        <div>
+            <span>Incident Date:</span>
+            <!-- ko if: isApproximate -->
+            <span data-bind="text: moment(incidentDate()).format('MMM YYYY') + ' (Approximate)'"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isApproximate -->
+            <span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span>
+            <!-- /ko -->
+        </div>
+        <div><span>Program:</span> <span data-bind="text: programTitle"></span></div>
+        <div><span>Location:</span> <span data-bind="text: incidentLocation"></span></div>
+        <div><span>Created By:</span> <span data-bind="text: createdByName"></span></div>
+        <div><span>Created Date/Time:</span> <span data-bind="text: moment(createdStamp()).format('M/D/YYYY h:mm a')"></span></div>
+    </div>
+</section>
+
+<h3><span class="icon-aid-kit"></span> Medical Assessment</h3>
+
+<p>Description of Incident:</p>
+
+<!-- ko if: incidentDetails -->
+<p data-bind="text: incidentDetails"></p>
+<!-- /ko -->
+
+<!-- ko if: !(incidentDetails()) -->
+<p class="is-not-completed">Details of incident have not yet been provided by staff.</p>
+<!-- /ko -->
+
+<section>
+    <header><h4>Incident Type(s)</h4></header>
+    <table class="no-border auto-width">
+        <tbody data-bind="foreach: incidentTypes">
+            <tr>
+                <td><span data-bind="text: incidentTypeText"></span></td>
+                <td><span data-bind="text: incidentInfo"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+
+    <div class="flex-form">
+
+
+        <div class="form-control">
+            <label>Assessment Date Completed: <input type="text" size="12" maxlength="10" data-bind="datepicker: assessmentDate" /></label>
+        </div>
+
+
+        <div class="form-control">
+            <label>
+                Time:
+                <button title="Set Time to Current Time" class="action-button" data-bind="click: SetCurrentTime"><span class="icon-clock"></span></button>
+                <input type="text" size="10" maxlength="8" required placeholder="xx:xx AM" data-bind="value: assessmentTime" />
+                
+            </label>
+        </div>
+
+
+
+
+    </div>
+
+
+    <div class="form-control">
+
+        <label>Medical Assessment: <textarea rows="20" cols="120" required spellcheck="true" placeholder="Describe any injuries caused as a result of this incident and any measures taken to alleviate..." data-bind="value: assessmentDetails"></textarea></label>
+    </div>
+
+</section>
+
+<section>
+
+    <header><h3>Attachments</h3></header>
+
+
+
+
+    <section>
+
+        <header><h4>Attached Photos</h4></header>
+
+        <button data-bind="click: AddPhoto"><span class="icon-file-picture"></span> Upload Photo</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Details</th>
+                    <th>Title</th>
+                    <th>Comments</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: attachedPhotos">
+                <tr>
+                    <td width="200px">
+                        <a data-bind="attr: { href: attachmentUrl, title: attachmentTitle }" class="fb-photos" rel="attached-photo"><img class="attached-photo" data-bind="attr: { src: attachmentUrl }" /></a>
+                    </td>
+                    <td width="20%">
+                        <div>Uploaded by: <span data-bind="text: staffName"></span></div>
+                        <div>Date/Time Uploaded: <span data-bind="text: moment(uploadedStamp).format('M/D/YYYY h:mm a')"></span></div>
+                    </td>
+                    <td><span data-bind="text: attachmentTitle"></span></td>
+                    <td width="30%;"><span data-bind="text: attachmentComments"></span></td>
+                    <td>
+                        <button class="action-button"><span class="icon-pencil"></span></button>
+                        <button class="action-button"><span class="icon-bin"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+    </section>
+
+
+    <section>
+
+        <header><h4>Attached Documents</h4></header>
+
+        <button data-bind="click: AddDocument"><span class="icon-file-pdf"></span> Upload Document</button>
+
+
+        <table class="auto-width">
+            <thead>
+                <tr>
+                    <th>Document</th>
+                    <th>Details</th>
+                    <th>Comments</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: attachedDocuments">
+                <tr>
+                    <td>
+                        <a target="_blank" data-bind="attr: { href: attachmentUrl, title: attachmentTitle }"><span data-bind="text: attachmentTitle"></span></a>
+                    </td>
+                    <td>
+                        <div>Uploaded by: <span data-bind="text: staffName"></span></div>
+                        <div>Date/Time Uploaded: <span data-bind="text: moment(uploadedStamp).format('M/D/YYYY h:mm a')"></span></div>
+                    </td>
+                    <td><span data-bind="text: attachmentComments"></span></td>
+                    <td>
+                        <button class="action-button"><span class="icon-pencil"></span></button>
+                        <button class="action-button"><span class="icon-bin"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</section>
+
+
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+
+        @*var _reportId = @ViewBag.ReportId;
+        var _incidentMedicalId = 0;*@
+
+
+        var medicalViewModel;
+
+        var MedicalViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            // HEADER
+            self.incidentId = ko.observable();
+            self.clientName = ko.observable();
+            self.programTitle = ko.observable();
+            self.incidentLocation = ko.observable();
+            self.createdByName = ko.observable();
+            self.createdStamp = ko.observable();
+            self.incidentDate = ko.observable();
+            self.isApproximate = ko.observable();
+
+            self.incidentDetails = ko.observable();
+            self.incidentTypes = ko.observable();
+
+            self.assessmentDate = ko.observable(moment(new Date()).format('M/D/YYYY')).extend({ required: true });
+            self.assessmentTime = ko.observable().extend({required: true});
+            self.assessmentDetails = ko.observable().extend({required: true});
+
+            self.attachedPhotos = ko.observableArray();
+            self.attachedDocuments = ko.observableArray();
+
+
+            self.incidentMedicalId = ko.observable(0);
+
+            self.Initialize = function () {
+
+                self.incidentId(@ViewBag.ReportId);
+
+                var storage = window.localStorage;
+                WriteToLog(self.incidentId(), storage.getItem('userId'), storage.getItem('stationInfo'), "Medical assessment created.");
+
+                self.GetAttachedDocuments();
+                self.GetAttachedPhotos();
+
+                Get('/api/reports/header/' + self.incidentId(), null, function(data) {
+                    self.clientName(data.clientName);
+                    self.programTitle(data.programTitle);
+                    self.incidentLocation(data.incidentLocation);
+                    self.createdByName(data.createdByName);
+                    self.createdStamp(data.createdStamp);
+                    self.incidentDate(moment(data.incidentDate).format('M/D/YYYY'));
+                    self.isApproximate(data.isApproximate);
+                });
+
+
+                Get('/api/details/' + self.incidentId(), null, function(data) {
+                    if (data) {
+                        self.incidentDetails(data.incidentDetails);
+                    }
+                });
+
+                Get('/api/types/selected/all/' + self.incidentId(), null, function (data) {
+                    self.incidentTypes(data);
+                });
+            };
+
+
+
+            self.SetCurrentTime = function() {
+                self.assessmentTime(moment(new Date()).format('h:mm A'));
+            };
+
+
+            self.AddPhoto = function() {
+                OpenDialog('/Attachments/Photo', function() { self.GetAttachedPhotos(); });
+            };
+
+
+
+            self.AddDocument = function() {
+                OpenDialog('/Attachments/Document', function() { self.GetAttachedDocuments(); });
+            };
+
+
+
+            self.GetAttachedPhotos= function() {
+
+                Get('/api/photos/' + self.incidentId(), null, function(data) {
+                    self.attachedPhotos(data);
+                    ShowPhotoGallery('fb-photos');
+                });
+            };
+
+            self.GetAttachedDocuments= function() {
+
+                Get('/api/documents/' + self.incidentId(), null, function(data) {
+                    self.attachedDocuments(data);
+                });
+            };
+
+
+            self.CloseAssessment = function() {
+                window.location = '/Medicals/';
+            };
+
+
+            self.SaveAssessment = function () {
+
+                var assessmentDateTime = self.assessmentDate();
+                var assessmentDate = moment(new Date(assessmentDateTime)).format('M/D/YYYY');
+                assessmentDateTime = moment(assessmentDate + " " + self.assessmentTime()).format('M/D/YYYY HH:mm');
+
+
+                if (self.errors().length == 0) {
+                    var storage = window.localStorage;
+                    var medical = {
+                        incidentId: self.incidentId(),
+                        medStaffId: storage.getItem('userId'),
+                        //medAssmntDate: moment(self.assessmentDate() + ' ' + self.assessmentTime()).format('M/D/YYYY h:mm a'),
+                        medAssmntDate: assessmentDateTime,
+                        medAssmnt: self.assessmentDetails(),
+                        createdStamp: moment(new Date()).format('M/D/YYYY H:mm'),
+                        createdStation: storage.getItem('stationInfo') == null ? "Unknown" : storage.getItem('stationInfo'),
+                        statusId: 1
+                    };
+
+                    Post('/api/medicals/', medical, function (data) {
+                        ShowNotification('Medical Assessment Saved');
+                        self.incidentMedicalId(data);
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+            self.ApproveAssessment = function() {
+                if (self.errors().length == 0) {
+                    OpenDialog('/Medicals/FinalApprove', function () {
+                        window.location = '/Medicals/';
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+
+
+            self.Initialize();
+        };
+
+
+        $(document).ready(function () {
+            medicalViewModel = new MedicalViewModel();
+            ko.applyBindings(medicalViewModel);
+        });
+
+
+    </script>
+}
+

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "All Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>All Reports</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Program</th>
+            <th>Created</th>
+            <th>Created By</th>
+            <th>Current Status</th>
+            <th>
+
+            </th>
+            <th class="action-column">Action</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: reportsList">
+        <tr>
+            <td><span data-bind="text: clientName"></span></td>
+            <td><span data-bind="text: programTitle"></span></td>
+            <td><span data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></td>
+            <td><span data-bind="text: createdByName"></span></td>
+            <td><span data-bind="text: currentStatus"></span></td>
+            <td></td>
+            <td class="action-column">
+                <button class="action-button" data-bind="click: $parent.ViewReport"><span class="icon-binoculars"></span> View/Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+    var AllReportsViewModel = function () {
+        var self = this;
+
+        self.reportsList = ko.observableArray();
+
+
+        self.Initialize = function () {
+
+            Get('/api/reports/open', null, function (data) { self.reportsList(data); });
+
+        };
+
+
+
+        self.ViewReport = function (report) {
+            window.location = '/Admin/Review/' + report.incidentId;
+        };
+
+
+        self.Initialize();
+    };
+
+
+    $(document).ready(function () {
+        var viewModel = new AllReportsViewModel();
+        ko.applyBindings(viewModel);
+    });
+
+
+    </script>
+
+
+}

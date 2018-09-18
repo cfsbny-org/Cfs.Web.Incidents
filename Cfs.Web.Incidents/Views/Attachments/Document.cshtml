@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Upload Document";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="form-control">
+    <label>Document to Upload: <input type="file" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" data-bind="file: docFile, fileObjectURL: docFileURL, fileBase64: document, fileType: fileType" /></label>
+</div>
+
+
+<div class="form-control">
+    <label>Document Title/Short Description: <input type="text" size="80" maxlength="150" spellcheck="true" placeholder="Please give a short description of the photo." data-bind="value: attachmentTitle" required /></label>
+</div>
+
+<div class="form-control">
+    <label>Comments: <textarea rows="4" maxlength="500" spellcheck="true" data-bind="value: attachmentComments"></textarea></label>
+</div>
+
+<button data-bind="click: SavePhoto, disable: isUploading"><span class="icon-upload"></span> <span data-bind="text: buttonText"></span></button>
+<button data-bind="click: CloseDialog, disable: isUploading"><span class="icon-cross"></span> Cancel</button>
+
+
+
+
+@section SCripts {
+
+
+    <script type="text/javascript">
+
+
+
+        var DocumentViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.isUploading = ko.observable(false);
+            self.buttonText = ko.observable('Upload Document');
+
+            self.incidentId = ko.observable(parent._reportId);
+            self.attachmentTitle = ko.observable().extend({ required: true });
+            self.attachmentComments = ko.observable('');
+            self.docFile = ko.observable();
+            self.docFileURL = ko.observable();
+            self.document = ko.observable();
+            self.fileType = ko.observable();
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+            self.SavePhoto = function () {
+
+                if (self.errors().length == 0) {
+
+                    self.isUploading(true);
+                    self.buttonText('Uploading...');
+
+                    var storage = window.localStorage;
+                    var userId = storage.getItem('userId');
+
+                    var documentModel = {
+                        incidentId: self.incidentId(),
+                        //attachFileName: self.photoFile(),
+                        attachFileType: self.fileType(),
+                        attachFileBase64: self.document(),
+                        attachmentTitle: self.attachmentTitle(),
+                        attachmentComments: self.attachmentComments(),
+                        userId: userId
+                    };
+
+                    Post('/api/documents', documentModel, function (data) {
+                        self.isUploading(false);
+                        self.buttonText('Upload Document');
+                        ShowNotification('Document uploaded successfully.');
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new DocumentViewModel());
+        });
+
+
+
+
+
+    </script>
+}

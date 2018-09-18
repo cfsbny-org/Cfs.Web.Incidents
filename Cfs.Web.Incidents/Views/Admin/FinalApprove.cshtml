@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Approve/Deny Report";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<h3>Signatures</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Staff Name</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: signatures">
+        <tr>
+            <td><span data-bind="text: signatureType"></span></td>
+            <td><a data-bind="attr: { href: 'mailto:' + staffEmail }"><span data-bind="text: staffName"></span></a></td>
+            <td><span data-bind="text: staffTitle"></span></td>
+            <td><span data-bind="text: signStatusText"></span></td>
+            <td>
+                <!-- ko if: reportSigStamp -->
+                <span data-bind="text: moment(reportSigStamp).format('M/D/YYYY h:mm A')"></span>
+                <!-- /ko -->
+                <!-- ko ifnot: reportSigStamp -->
+                <span class="icon-warning data-warning">Not Signed</span>
+                <!-- /ko -->
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<section>
+    <h3>Save to E-Book</h3>
+    <div class="directory-view">
+        <div class="current-location">
+            <ul data-bind="foreach: breadcrumbs" class="breadcrumbs">
+                <li><a href="#" data-bind="click: $parent.GoToCrumb, text: folderName"></a></li>
+            </ul>
+        </div>
+        <div class="location-folders">
+            <!-- ko if: folders().length > 0 -->
+            <ul data-bind="foreach: folders" class="folder-list">
+                <li><a href="#" data-bind="click: $parent.OpenFolder"><span class="icon-folder"></span> <span data-bind="text: folderName"></span></a></li>
+            </ul>
+            <!-- /ko -->
+            <!-- ko if: folders().length == 0 -->
+            <p>There are no folders in this directory.</p>
+            <!-- /ko -->
+        </div>
+    </div>
+    <!-- CREATE FOLDER? -->
+        <div class="form-control">
+            <label>
+                New Folder:
+                <input type="text" size="80" maxlength="100" required data-bind="value: newFolder, attr: { placeholder: 'Create new folder in ' + currentFolder() }" />
+            </label>
+
+        </div>
+       
+    <button data-bind="click: CreateFolder"><span class="icon-folder-plus"></span> Create</button>
+</section>
+
+
+
+<div class="form-control">
+    <label>Signature: <input type="password" size="40" maxlength="30" data-bind="value: signature" required placeholder="Sign with your Windows password." /></label>
+</div>
+
+
+<button data-bind="click: ApproveReport"><span class="icon-lock"></span> Final Approve</button>
+<button data-bind="click: CancelApproval"><span class="icon-cross"></span> Cancel</button>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var SignatureViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.currentFolder = ko.observable('Ebooks');
+            self.folders = ko.observableArray();
+            self.breadcrumbs = ko.observableArray();
+            self.newFolder = ko.observable();
+
+            self.signature = ko.observable().extend({ required: { message: 'Please enter your password before submitting.' } });
+
+            self.signatures = ko.observableArray();
+
+
+
+            self.currentFolder.subscribe(function (newValue) {
+                self.currentFolder(self.currentFolder().replace('\\\\844dc2\\Conners\\', ''));
+            });
+
+
+
+            self.Initalize = function () {
+
+
+
+                Get('/api/signatures/list/' + parent._reportId, null, function (data) {
+                    self.signatures(data);
+                });
+
+
+
+                Get('/api/directory?path=\\\\844dc2\\Conners\\Ebooks', null, function (data) {
+                    self.folders(data);
+                    self.breadcrumbs.push({ folderName: 'ebooks', fullPath: '\\\\844dc2\\Conners\\Ebooks' });
+                });
+
+            };
+
+
+
+            self.OpenFolder = function (folder) {
+                Get('/api/directory?path=' + folder.fullPath, null, function (data) {
+                    self.folders(data);
+                    self.currentFolder(folder.fullPath);
+                    self.breadcrumbs.push({ folderName: folder.folderName, fullPath: folder.fullPath });
+                });
+            };
+
+
+            self.CreateFolder = function () {
+                var fullPath = '\\\\844dc2\\Conners\\' + self.currentFolder() + '\\' + self.newFolder();
+                Post('/api/directory', { '': fullPath }, function () {
+
+                    ShowNotification('Folder created.');
+                    
+                    self.folders.push({ fullPath: fullPath, folderName: self.newFolder() });
+                    self.newFolder('');
+
+                });
+            };
+
+
+            self.GoToCrumb = function (crumb) {
+                Get('/api/directory?path=' + crumb.fullPath, null, function (data) {
+                    self.folders(data);
+                    self.currentFolder(crumb.fullPath);
+                    var crumbIndex = self.breadcrumbs.indexOf(crumb);
+                    self.breadcrumbs.remove(function (item) { return self.breadcrumbs.indexOf(item) > crumbIndex });
+                });
+
+            };
+
+
+            self.CancelApproval = function () {
+                parent.$.fancybox.close();
+            }
+
+
+            self.ApproveReport = function () {
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+
+                    var signature = {
+                        incidentId: parent._reportId,
+                        statusId: 6,
+                        currentUser: storage.getItem('userId'),
+                        userName: storage.getItem('userName'),
+                        signature: self.signature(),
+                        staffName: storage.getItem('fullName'),
+                        staffTitle: storage.getItem('jobTitle'),
+                        stationName: storage.getItem('stationInfo'),
+                        ebookFolder: self.currentFolder()
+                    };
+
+                    Post('/api/reports/admin/approve', signature, function (data) {
+
+
+                        parent.window.location = "/";
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+            self.Initalize();
+
+
+            
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new SignatureViewModel());
+        });
+
+
+
+    </script>
+}

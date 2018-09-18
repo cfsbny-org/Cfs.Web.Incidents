@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Upload Photo";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+
+<div class="form-control">
+    <label>Photo to Upload: <input type="file" accept="image/*" data-bind="file: photoFile, fileObjectURL: photoFileURL, fileBase64: image, fileType: imageType" /></label>
+</div>
+
+
+<div class="form-control">
+    <label>Photo Title/Short Description: <input type="text" size="80" maxlength="150" spellcheck="true" placeholder="Please give a short description of the photo." data-bind="value: attachmentTitle" /></label>
+</div>
+
+<div class="form-control">
+    <label>Comments: <textarea rows="4" maxlength="500" spellcheck="true" data-bind="value: attachmentComments"></textarea></label>
+</div>
+
+<button data-bind="click: SavePhoto, disable: isUploading"><span class="icon-upload"></span> <span data-bind="text: buttonText"></span></button>
+<button data-bind="click: CloseDialog, disable: isUploading"><span class="icon-cross"></span> Cancel</button>
+
+
+
+
+@section SCripts {
+
+
+    <script type="text/javascript">
+
+
+
+        var PhotoViewModel = function () {
+            var self = this;
+
+
+            self.isUploading = ko.observable(false);
+            self.buttonText = ko.observable('Upload Photo');
+
+            self.incidentId = ko.observable(parent._reportId);
+            self.attachmentTitle = ko.observable('');
+            self.attachmentComments = ko.observable('');
+            self.photoFile = ko.observable();
+            self.photoFileURL = ko.observable();
+            self.image = ko.observable();
+            self.imageType = ko.observable();
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+            self.SavePhoto = function () {
+                self.isUploading(true);
+                self.buttonText('Uploading...');
+
+                var storage = window.localStorage;
+                var userId = storage.getItem('userId');
+
+                var photoModel = {
+                    incidentId: self.incidentId(),
+                    //attachFileName: self.photoFile(),
+                    attachFileType: self.imageType(),
+                    attachFileBase64: self.image(),
+                    attachmentTitle: self.attachmentTitle(),
+                    attachmentComments: self.attachmentComments(),
+                    userId: userId
+                };
+
+                Post('/api/photos', photoModel, function (data) {
+                    self.isUploading(false);
+                    self.buttonText('Upload Photo');
+                    ShowNotification('Photo uploaded successfully.');
+                });
+            };
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new PhotoViewModel());
+        });
+
+
+
+
+
+    </script>
+}

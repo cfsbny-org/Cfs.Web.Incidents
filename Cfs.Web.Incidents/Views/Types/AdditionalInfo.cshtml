@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Additional Information";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<h3 data-bind="text: incidentTypeText"></h3>
+
+<div class="form-control">
+    <label>
+        <span data-bind="text: needsInfoLabel"></span>
+        <input type="text" size="120" maxlength="255"
+               data-bind="value: incidentInfo, attr: { placeholder: 'Please specify the additional information for the incident type &quot;' + incidentTypeText() + '&quot;' }" />
+    </label>
+</div>
+
+
+<button data-bind="click: SaveInfo"><span class="icon-floppy-disk"></span> Save</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Close</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        var AdditionalInfoModel = function () {
+            var self = this;
+
+
+            self.reportIncidentTypeId = ko.observable(@ViewBag.ReportIncidentTypeId);
+            self.incidentId = ko.observable();
+            self.incidentTypeId = ko.observable();
+            self.incidentTypeText = ko.observable();
+            self.incidentInfo = ko.observable();
+            self.needsInfoLabel = ko.observable();
+
+            self.Initialize = function () {
+                Get('/api/report/incident/' + self.reportIncidentTypeId(), null, function (data) {
+                    self.incidentId(data.incidentId);
+                    self.incidentTypeId(data.incidentTypeId);
+                    self.incidentTypeText(data.incidentTypeText);
+                    self.incidentInfo(data.incidentInfo);
+                    self.needsInfoLabel(data.needsInfoLabel);
+                });
+            };
+
+
+            self.SaveInfo = function () {
+                var incident = {
+                    reportIncidentTypeId: self.reportIncidentTypeId(),
+                    incidentId: self.incidentId(),
+                    incidentTypeId: self.incidentTypeId(),
+                    incidentInfo: self.incidentInfo()
+                };
+
+                Post('/api/types/incidents/update', incident, function () {
+                    parent.$.fancybox.close();
+                });
+            };
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+            self.Initialize();
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new AdditionalInfoModel());
+        });
+
+
+    </script>
+}

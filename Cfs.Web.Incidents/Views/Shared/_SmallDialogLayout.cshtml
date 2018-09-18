@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    @Styles.Render("~/content/theme")
+    @Scripts.Render("~/scripts/app")
+    <title>@ViewBag.Title</title>
+</head>
+<body class="modal-dialog">
+    <div id="page-container">
+        <header class="dialog-header">
+            <h2>@ViewBag.Title</h2>
+        </header>
+        <div class="dialog-content" id="page-body">
+            @RenderBody()
+        </div>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

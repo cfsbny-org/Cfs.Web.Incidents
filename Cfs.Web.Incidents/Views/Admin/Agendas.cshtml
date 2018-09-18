@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Generate Meeting Agendas";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+
+
+<div class="flex-form">
+
+
+    <div class="form-control">
+        <label>
+            Agenda Title:
+            <input type="text" required size="50" maxlength="80" data-bind="value: agendaTitle" placeholder="Title of agenda document" />
+        </label>
+    </div>
+
+
+    <div class="form-control">
+        <label>
+            From Date:
+            <input type="text" size="10" data-bind="datepicker: fromDate, datepickerOptions: { maxDate: 0 }" required />
+        </label>
+    </div>
+
+
+    <div class="form-control">
+        <label>
+            To Date: 
+            <input type="text" size="10" data-bind="datepicker: toDate, datepickerOptions: { maxDate: 0 }" required />
+        </label>
+    </div>
+
+</div>
+
+
+<button data-bind="click: GenerateAgenda"><span class="icon-file-word"></span> Generate Meeting Agenda</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var AgendasViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.agendaTitle = ko.observable().extend({ required: true });
+            self.fromDate = ko.observable().extend({ required: true });
+            self.toDate = ko.observable().extend({
+                required: true
+            });
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+            
+
+            self.GenerateAgenda = function () {
+                
+                if (self.errors().length == 0) {
+                    var storage = window.localStorage;
+                    
+                    var agenda = {
+                        agendaTitle: self.agendaTitle(),
+                        fromDate: moment(self.fromDate()).format('M/D/YYYY'),
+                        toDate: moment(self.toDate()).format('M/D/YYYY')
+                    };
+                    Post('/api/agendas', agenda, function (data) {
+                        ShowNotification('Agenda document created.');
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new AgendasViewModel());
+        });
+
+
+
+    </script>
+}

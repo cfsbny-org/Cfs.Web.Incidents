@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "Search Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>Search Reports</h2>
+
+
+<h3>Search Criteria</h3>
+
+<section>
+
+    <p>Search by partial or full client name.  Start and end dates are required.</p>
+
+    <div class="flex-form">
+
+
+        <div class="form-control">
+            <label>Client: <input type="text" size="30" class="form-control" data-bind="value: clientName" required /></label>
+        </div>
+        <div class="form-control">
+            <label>Start Date: <input type="text" size="15" class="form-control" data-bind="datepicker: startDate, datepickerOptions: { maxDate: '0' }" required /></label>
+        </div>
+        <div class="form-control">
+            <label>End Date: <input type="text" size="15" class="form-control" data-bind="datepicker: endDate, datepickerOptions: { maxDate: '0' }" required /></label>
+        </div>
+    </div>
+
+    <div>
+        <button type="button" data-bind="click: SearchReports"><span class="icon-search"></span> Search Reports</button>
+    </div>
+
+</section>
+
+
+<h3>Search Results</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Client</th>
+            <th>Program</th>
+            <th>Created</th>
+            <th>Created By</th>
+            <th>Current Status</th>
+            <th class="action-column">Action</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: searchResults">
+        <tr>
+            <td><span data-bind="text: clientName"></span></td>
+            <td><span data-bind="text: programTitle"></span></td>
+            <td><span data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></td>
+            <td><span data-bind="text: createdByName"></span></td>
+            <td><span data-bind="text: currentStatus"></span></td>
+            <td class="action-column">
+                <button class="action-button" data-bind="click: $parent.ViewReport"><span class="icon-binoculars"></span> View/Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        var SearchViewModel = function () {
+            var self = this;
+
+            self.clientName = ko.observable('');
+            self.startDate = ko.observable();
+            self.endDate = ko.observable();
+
+            self.searchResults = ko.observableArray();
+
+
+
+            self.SearchReports = function () {
+
+                var params = {
+                    clientName: self.clientName(),
+                    startDate: moment(self.startDate()).format('M/D/YYYY'),
+                    endDate: moment(self.endDate()).format('M/D/YYYY')
+                };
+
+
+                Post('/api/search', params, function (data) {
+                    self.searchResults(data);
+                });
+
+
+            };
+
+
+
+            self.ViewReport = function (report) {
+                window.open('/Admin/Review/' + report.incidentId);
+            };
+
+
+
+
+        };
+
+
+
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new SearchViewModel());
+        });
+
+    </script>
+
+}

@@ -1,0 +1,1047 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="analiveModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CDASSIGN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RECNUM" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="CLIENT_ID" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="UNIT_ID" Type="smallint" Nullable="false" />
+          <Property Name="SUB_UNIT_ID" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="CLTRT_ID" Type="int" Nullable="false" />
+          <Property Name="SERVER_ID" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="TTEAM_ID" Type="varchar" MaxLength="10" />
+          <Property Name="DATE_OPENED" Type="date" Nullable="false" />
+          <Property Name="DATE_CLOSED" Type="date" Nullable="false" />
+          <Property Name="ADMIT_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="TYPE_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="REAS_ID" Type="varchar" MaxLength="2" />
+          <Property Name="TRAN_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="TRAN_APPROVE_F" Type="varchar" MaxLength="1" />
+          <Property Name="TRAN_FR_ASS_ID" Type="int" />
+          <Property Name="TRAN_TO_ASS_ID" Type="int" />
+          <Property Name="OPEN_HOUR" Type="smallint" />
+          <Property Name="OPEN_MINUTE" Type="varchar" MaxLength="2" />
+          <Property Name="CLOSE_HOUR" Type="smallint" />
+          <Property Name="CLOSE_MINUTE" Type="varchar" MaxLength="2" />
+          <Property Name="AGENCY" Type="varchar" MaxLength="30" />
+          <Property Name="ADDRESS" Type="varchar" MaxLength="30" />
+          <Property Name="CITY" Type="varchar" MaxLength="20" />
+          <Property Name="STATE" Type="varchar" MaxLength="2" />
+          <Property Name="ZIP_CODE" Type="varchar" MaxLength="11" />
+          <Property Name="PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="CONTACT_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="REF_PROV_ID" Type="varchar" MaxLength="8" />
+          <Property Name="REF_PROV_LNAME" Type="varchar" MaxLength="30" />
+          <Property Name="NOT_USED_30" Type="varchar" MaxLength="2" />
+          <Property Name="DEST_PROV_ID" Type="varchar" MaxLength="8" />
+          <Property Name="DEST_PROV_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="DEST_PROV_TYPE" Type="varchar" MaxLength="2" />
+          <Property Name="REL_ID" Type="varchar" MaxLength="1" />
+          <Property Name="LIVING_ID" Type="varchar" MaxLength="2" />
+          <Property Name="THER_LEAVE_DAYS" Type="smallint" />
+          <Property Name="NY_DISCH_STAT" Type="varchar" MaxLength="2" />
+          <Property Name="PAT_PART_AMT" Type="numeric" Precision="6" Scale="2" />
+          <Property Name="SING_PAR_FAM_F" Type="varchar" MaxLength="1" />
+          <Property Name="USTF_PATIENT_#" Type="varchar" MaxLength="8" />
+          <Property Name="NM_LOC_OPENED" Type="smallint" />
+          <Property Name="NM_LOC_CLOSED" Type="smallint" />
+          <Property Name="PAT_STAT_ID" Type="smallint" />
+          <Property Name="ASSCAT_ID" Type="varchar" MaxLength="6" />
+          <Property Name="CSI_ADM_CRIT" Type="varchar" MaxLength="1" />
+          <Property Name="CSI_LEGAL_ADM" Type="varchar" MaxLength="2" />
+          <Property Name="CSI_LEGAL_DC" Type="varchar" MaxLength="2" />
+          <Property Name="ENTERED_BY_ID" Type="int" />
+          <Property Name="ENTERED_DATE" Type="date" />
+          <Property Name="DELETED_BY_ID" Type="int" />
+          <Property Name="DELETED_DATE" Type="date" />
+          <Property Name="VOID_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="MCAUTH_DEL_FLAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="OSHPD_ADMSITE" Type="varchar" MaxLength="8" />
+          <Property Name="OSHPD_ADMROUTE" Type="smallint" />
+          <Property Name="OSHPD_ADMTYPE" Type="smallint" />
+          <Property Name="OSHPD_DNR" Type="varchar" MaxLength="1" />
+          <Property Name="WA_PROG_ID" Type="varchar" MaxLength="2" />
+          <Property Name="WA_PROG_BEG_DT" Type="date" />
+          <Property Name="WA_PROG_END_DT" Type="date" />
+          <Property Name="REF_PROV_NPI" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="REF_PROV_LTYPE" Type="varchar" MaxLength="3" />
+          <Property Name="REF_PROV_FNAME" Type="varchar" MaxLength="15" />
+          <Property Name="CARE_LOC_CODE" Type="varchar" MaxLength="4" />
+          <Property Name="TOC_FLAG" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="CDCLIENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RECNUM" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="CASE_NUM" Type="decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SORT_NAME" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="VA_COG_DELAY" Type="varchar" MaxLength="1" />
+          <Property Name="SEX" Type="varchar" MaxLength="1" />
+          <Property Name="DOB" Type="date" Nullable="false" />
+          <Property Name="ETH_ID" Type="varchar" MaxLength="1" />
+          <Property Name="LAST_NAME" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="FIRST_NAME" Type="varchar" MaxLength="15" />
+          <Property Name="MI" Type="varchar" MaxLength="1" />
+          <Property Name="ADDRESS" Type="varchar" MaxLength="30" />
+          <Property Name="CITY" Type="varchar" MaxLength="20" />
+          <Property Name="STATE" Type="varchar" MaxLength="2" />
+          <Property Name="ZIP" Type="varchar" MaxLength="11" />
+          <Property Name="ADDR_COUNTY_ID" Type="smallint" />
+          <Property Name="RES_COUNTY_ID" Type="smallint" />
+          <Property Name="RES_COUNTY_DATE" Type="date" />
+          <Property Name="HOME_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="WORK_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="SOC_SEC_NUM" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="STATUS_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="MAR_STATUS" Type="varchar" MaxLength="1" />
+          <Property Name="PRIM_LANG_ID" Type="varchar" MaxLength="3" />
+          <Property Name="EDUC_ID" Type="varchar" MaxLength="2" />
+          <Property Name="HOUSE_TYPE_ID" Type="varchar" MaxLength="2" />
+          <Property Name="EXPECT_GRAD_DT" Type="date" />
+          <Property Name="SPECIAL_TRAIN" Type="varchar" MaxLength="30" />
+          <Property Name="DOB_EST" Type="varchar" MaxLength="1" />
+          <Property Name="SECTION_8_HOUSE" Type="varchar" MaxLength="1" />
+          <Property Name="EMPLOYMENT_ID" Type="varchar" MaxLength="1" />
+          <Property Name="SAI_ID" Type="int" Nullable="false" />
+          <Property Name="COMM_ID" Type="varchar" MaxLength="2" />
+          <Property Name="EMERG_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="EMERG_ADDR1" Type="varchar" MaxLength="30" />
+          <Property Name="EMERG_CITY" Type="varchar" MaxLength="20" />
+          <Property Name="EMERG_ST" Type="varchar" MaxLength="2" />
+          <Property Name="EMERG_ZIP" Type="varchar" MaxLength="11" />
+          <Property Name="EMERG_REL_ID" Type="varchar" MaxLength="1" />
+          <Property Name="EMERG_HOM_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="REF_SRC_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="INFORMANT_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="ENTTLE_ID" Type="varchar" MaxLength="20" />
+          <Property Name="REF_SOURCE_ID" Type="varchar" MaxLength="2" />
+          <Property Name="INFORMANT_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="RAPPT_ID" Type="varchar" MaxLength="2" />
+          <Property Name="DATE_1ST_ASTP" Type="date" />
+          <Property Name="PREFIX" Type="varchar" MaxLength="10" />
+          <Property Name="MAIL_OK" Type="varchar" MaxLength="1" />
+          <Property Name="RESP_ADDR2" Type="varchar" MaxLength="30" />
+          <Property Name="PCP_ADDR2" Type="varchar" MaxLength="30" />
+          <Property Name="NOT_USED_51" Type="int" />
+          <Property Name="NOT_USED_52" Type="int" />
+          <Property Name="TIMES_ARRESTED" Type="smallint" />
+          <Property Name="NOT_USED_54" Type="numeric" Precision="8" Scale="4" />
+          <Property Name="NOT_USED_55" Type="numeric" Precision="8" Scale="4" />
+          <Property Name="NOT_USED_56" Type="numeric" Precision="8" Scale="4" />
+          <Property Name="NM_PP" Type="varchar" MaxLength="2" />
+          <Property Name="NOT_USED_58" Type="int" />
+          <Property Name="EMERG_REL_SIGND" Type="varchar" MaxLength="1" />
+          <Property Name="PCP_PRACT_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="LEGAL_STAT_ID" Type="varchar" MaxLength="1" />
+          <Property Name="LEGAL_STAT_ID_2" Type="varchar" MaxLength="1" />
+          <Property Name="RESP_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="RESP_ADDR1" Type="varchar" MaxLength="30" />
+          <Property Name="RESP_CITY" Type="varchar" MaxLength="20" />
+          <Property Name="RESP_ST" Type="varchar" MaxLength="2" />
+          <Property Name="RESP_ZIP" Type="varchar" MaxLength="11" />
+          <Property Name="EMERG_REL_SN_DT" Type="date" />
+          <Property Name="PCP_REL_SIGNED" Type="varchar" MaxLength="1" />
+          <Property Name="CLIENT_TYPE" Type="varchar" MaxLength="1" />
+          <Property Name="CLIENT_RELATIVE" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="PCP_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="PCP_ADDR1" Type="varchar" MaxLength="30" />
+          <Property Name="PCP_CITY" Type="varchar" MaxLength="20" />
+          <Property Name="PCP_ST" Type="varchar" MaxLength="2" />
+          <Property Name="PCP_ZIP" Type="varchar" MaxLength="11" />
+          <Property Name="PCP_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="PRIM_UNIT_ID" Type="smallint" Nullable="false" />
+          <Property Name="PRIM_SUB_UNIT" Type="varchar" MaxLength="4" />
+          <Property Name="GROUP_CODE" Type="varchar" MaxLength="3" />
+          <Property Name="NOT_USED_81" Type="int" />
+          <Property Name="ALLERGIES" Type="varchar" MaxLength="30" />
+          <Property Name="PRIMARY_AXIS" Type="varchar" MaxLength="1" />
+          <Property Name="LAST_TREAT_PLAN" Type="date" />
+          <Property Name="PLAN_APPROVE_ID" Type="int" />
+          <Property Name="IQ_TEST_SCORE" Type="int" />
+          <Property Name="HLTH_INS_1" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_2" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_3" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_4" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_5" Type="varchar" MaxLength="1" />
+          <Property Name="NOT_USED_92" Type="int" />
+          <Property Name="INTK_APPT_DATE" Type="date" />
+          <Property Name="HISP_ORIG_ID" Type="varchar" MaxLength="1" />
+          <Property Name="APPT_WTHN_5DAYS" Type="varchar" MaxLength="1" />
+          <Property Name="TD_CLIENT_ID" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="CURRENT_ABL" Type="varchar" MaxLength="1" />
+          <Property Name="REF_AGENCY_ID" Type="varchar" MaxLength="4" />
+          <Property Name="ABL_DATE" Type="date" />
+          <Property Name="CARE_BEGIN_DATE" Type="date" />
+          <Property Name="RESID_VER_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="PREG_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="COURT_EVAL_ID" Type="varchar" MaxLength="3" />
+          <Property Name="PREV_INST" Type="varchar" MaxLength="1" />
+          <Property Name="EPSDT_REF_DATE" Type="date" />
+          <Property Name="IQ_TEST_DATE" Type="date" />
+          <Property Name="POTENTIAL_ABL" Type="varchar" MaxLength="1" />
+          <Property Name="SQ_TEST_DATE" Type="date" />
+          <Property Name="CENSUS_#" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="RESP_HOM_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="IQ_TEST_TYPE" Type="smallint" />
+          <Property Name="REQUEST_SVCS" Type="date" />
+          <Property Name="REG_DATE" Type="date" />
+          <Property Name="CARE_STAFF_DT" Type="date" />
+          <Property Name="HLTH_INS_6" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_7" Type="varchar" MaxLength="1" />
+          <Property Name="LIVING_VER_ID" Type="varchar" MaxLength="3" />
+          <Property Name="SQ_TEST_TYPE" Type="smallint" />
+          <Property Name="SQ_TEST_SCORE" Type="int" />
+          <Property Name="PREG_DATE" Type="date" />
+          <Property Name="LTR_DAYS_BAL" Type="smallint" />
+          <Property Name="LPM_DAYS_BAL" Type="smallint" />
+          <Property Name="CODEP_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="DEP_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="EXPPAY_ID" Type="varchar" MaxLength="1" />
+          <Property Name="NOT_USED_126" Type="int" />
+          <Property Name="PRIOR_SA" Type="smallint" />
+          <Property Name="NOT_USED_128" Type="int" />
+          <Property Name="NOT_USED_129" Type="int" />
+          <Property Name="NOT_USED_130" Type="int" />
+          <Property Name="NOT_USED_131" Type="int" />
+          <Property Name="SEXUAL_ORIENT" Type="varchar" MaxLength="1" />
+          <Property Name="PCP_EXP_DATE" Type="date" />
+          <Property Name="LST_STM_FISC_MO" Type="smallint" />
+          <Property Name="LST_STM_FISC_YR" Type="smallint" />
+          <Property Name="DATE_OF_DEATH" Type="date" />
+          <Property Name="DOWNLOADED_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="PP_BILL" Type="varchar" MaxLength="3" />
+          <Property Name="PP_CARE" Type="varchar" MaxLength="3" />
+          <Property Name="GAF_SCORE" Type="smallint" />
+          <Property Name="LEGAL_ADMIT_ID" Type="varchar" MaxLength="2" />
+          <Property Name="RESP_REL_ID" Type="varchar" MaxLength="1" />
+          <Property Name="WORK_PHONE_OK" Type="varchar" MaxLength="1" />
+          <Property Name="VET_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="SPEC_ED_FLAG" Type="varchar" MaxLength="1" />
+          <Property Name="VOTER_REG_ID" Type="varchar" MaxLength="1" />
+          <Property Name="LAST_SERVICE_DT" Type="date" />
+          <Property Name="PP_CARE_STAT" Type="varchar" MaxLength="3" />
+          <Property Name="HOME_PHONE_OK" Type="varchar" MaxLength="1" />
+          <Property Name="SCHOOL_ID" Type="varchar" MaxLength="6" />
+          <Property Name="EXT_CASE_#" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="EXTCW_ID" Type="int" />
+          <Property Name="EMERG_WRK_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="REF_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="MCARE_A_B_IND" Type="varchar" MaxLength="1" />
+          <Property Name="TRIBE_ID" Type="varchar" MaxLength="11" />
+          <Property Name="NOT_USED_157" Type="int" />
+          <Property Name="NOT_USED_158" Type="int" />
+          <Property Name="WA_CLIENT_STAT" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_8" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_9" Type="varchar" MaxLength="1" />
+          <Property Name="ACTION_AUDIT_F" Type="varchar" MaxLength="1" />
+          <Property Name="ACCPT_APPT" Type="date" />
+          <Property Name="DSM_DATE" Type="date" />
+          <Property Name="HLTH_INS_8" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_9" Type="varchar" MaxLength="1" />
+          <Property Name="DSM_VERSION" Type="int" />
+          <Property Name="NOT_USED_168" Type="int" />
+          <Property Name="TITLE_XIX_IND" Type="varchar" MaxLength="1" />
+          <Property Name="WA_OTH_INS_IND" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_1" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_2" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_3" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_4" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_5" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_6" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_7" Type="varchar" MaxLength="1" />
+          <Property Name="CARE_EXCLUDE_F" Type="varchar" MaxLength="1" />
+          <Property Name="EMP_TYPE_ID" Type="varchar" MaxLength="5" />
+          <Property Name="LIVE_ARRANGE_ID" Type="varchar" MaxLength="2" />
+          <Property Name="EMERG_PH_EXT" Type="varchar" MaxLength="5" />
+          <Property Name="SUFFIX" Type="varchar" MaxLength="5" />
+          <Property Name="WORK_PHONE_EXT" Type="varchar" MaxLength="5" />
+          <Property Name="MIDDLE_NAME" Type="varchar" MaxLength="10" />
+          <Property Name="RES_HOUSTP_ID" Type="varchar" MaxLength="10" />
+          <Property Name="SMI" Type="varchar" MaxLength="10" />
+          <Property Name="GRDLVL_ID" Type="varchar" MaxLength="10" />
+          <Property Name="CITIZEN_FLAG" Type="varchar" MaxLength="10" />
+          <Property Name="BIRTH_NAME" Type="varchar" MaxLength="30" />
+          <Property Name="ADDRESS_2" Type="varchar" MaxLength="30" />
+          <Property Name="PRES_PROB_1" Type="varchar" MaxLength="30" />
+          <Property Name="PRES_PROB_2" Type="varchar" MaxLength="30" />
+          <Property Name="SEC_EX_NUM" Type="varchar" MaxLength="30" />
+          <Property Name="REF_REAS" Type="varchar" MaxLength="30" />
+          <Property Name="EMERG_ADDR2" Type="varchar" MaxLength="30" />
+          <Property Name="NOT_USED_196" Type="date" />
+          <Property Name="NOT_USED_197" Type="date" />
+          <Property Name="NOT_USED_198" Type="date" />
+          <Property Name="DAYS_OF_WORK" Type="smallint" />
+          <Property Name="ETH_ID_2" Type="varchar" MaxLength="1" />
+          <Property Name="ETH_ID_3" Type="varchar" MaxLength="1" />
+          <Property Name="COLLABORATIV_CD" Type="smallint" />
+          <Property Name="TIMES_ARREST_6M" Type="smallint" />
+          <Property Name="SAATTD_ID" Type="varchar" MaxLength="2" />
+          <Property Name="DUDSCH_ID" Type="varchar" MaxLength="2" />
+          <Property Name="WAIT_LIST_DRTN" Type="smallint" />
+          <Property Name="RACE_ID" Type="varchar" MaxLength="2" />
+          <Property Name="LOCK_PRIM" Type="smallint" />
+          <Property Name="RESP_WRK_PH_EXT" Type="varchar" MaxLength="5" />
+          <Property Name="ZIP4" Type="varchar" MaxLength="7" />
+          <Property Name="NOT_USED_211" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_212" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_213" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_214" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_215" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_216" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_217" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_218" Type="numeric" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_219" Type="int" />
+          <Property Name="NOT_USED_220" Type="int" />
+          <Property Name="RESP_WRK_PHONE" Type="varchar" MaxLength="12" />
+          <Property Name="PCP_PH_EXT" Type="varchar" MaxLength="5" />
+          <Property Name="MAG_DISTRICT_ID" Type="varchar" MaxLength="2" />
+          <Property Name="HLTH_INS_10" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_11" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_12" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_13" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_14" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_15" Type="varchar" MaxLength="1" />
+          <Property Name="HLTH_INS_16" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_1" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_2" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_3" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_4" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_5" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_6" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_7" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_8" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_9" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_10" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_11" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_12" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_13" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_14" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_15" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_16" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_17" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_18" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_19" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_20" Type="varchar" MaxLength="1" />
+          <Property Name="SRC_OF_INC_21" Type="varchar" MaxLength="1" />
+          <Property Name="VA_PP_MH" Type="varchar" MaxLength="1" />
+          <Property Name="VA_PP_SA" Type="varchar" MaxLength="1" />
+          <Property Name="VA_PP_MR" Type="varchar" MaxLength="1" />
+          <Property Name="IMPAIR_10" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityContainer Name="analiveModelStoreContainer">
+          <EntitySet Name="CDASSIGN" EntityType="Self.CDASSIGN" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CDCLIENT" EntityType="Self.CDCLIENT" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="analiveModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CDCLIENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RECNUM" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="CASE_NUM" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="SORT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VA_COG_DELAY" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SEX" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ETH_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="MI" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ZIP" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="ADDR_COUNTY_ID" Type="Int16" />
+          <Property Name="RES_COUNTY_ID" Type="Int16" />
+          <Property Name="RES_COUNTY_DATE" Type="DateTime" Precision="0" />
+          <Property Name="HOME_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="WORK_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="SOC_SEC_NUM" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="STATUS_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MAR_STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PRIM_LANG_ID" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EDUC_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="HOUSE_TYPE_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="EXPECT_GRAD_DT" Type="DateTime" Precision="0" />
+          <Property Name="SPECIAL_TRAIN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DOB_EST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SECTION_8_HOUSE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPLOYMENT_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SAI_ID" Type="Int32" Nullable="false" />
+          <Property Name="COMM_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_ADDR1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_CITY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_ST" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_ZIP" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_REL_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_HOM_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="REF_SRC_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="INFORMANT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ENTTLE_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="REF_SOURCE_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="INFORMANT_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="RAPPT_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DATE_1ST_ASTP" Type="DateTime" Precision="0" />
+          <Property Name="PREFIX" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MAIL_OK" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_ADDR2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_ADDR2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_51" Type="Int32" />
+          <Property Name="NOT_USED_52" Type="Int32" />
+          <Property Name="TIMES_ARRESTED" Type="Int16" />
+          <Property Name="NOT_USED_54" Type="Decimal" Precision="8" Scale="4" />
+          <Property Name="NOT_USED_55" Type="Decimal" Precision="8" Scale="4" />
+          <Property Name="NOT_USED_56" Type="Decimal" Precision="8" Scale="4" />
+          <Property Name="NM_PP" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_58" Type="Int32" />
+          <Property Name="EMERG_REL_SIGND" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_PRACT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LEGAL_STAT_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LEGAL_STAT_ID_2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_ADDR1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_CITY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_ST" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_ZIP" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_REL_SN_DT" Type="DateTime" Precision="0" />
+          <Property Name="PCP_REL_SIGNED" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CLIENT_TYPE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CLIENT_RELATIVE" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="PCP_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_ADDR1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_CITY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_ST" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_ZIP" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="PRIM_UNIT_ID" Type="Int16" Nullable="false" />
+          <Property Name="PRIM_SUB_UNIT" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="GROUP_CODE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_81" Type="Int32" />
+          <Property Name="ALLERGIES" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PRIMARY_AXIS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_TREAT_PLAN" Type="DateTime" Precision="0" />
+          <Property Name="PLAN_APPROVE_ID" Type="Int32" />
+          <Property Name="IQ_TEST_SCORE" Type="Int32" />
+          <Property Name="HLTH_INS_1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_5" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_92" Type="Int32" />
+          <Property Name="INTK_APPT_DATE" Type="DateTime" Precision="0" />
+          <Property Name="HISP_ORIG_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="APPT_WTHN_5DAYS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TD_CLIENT_ID" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="CURRENT_ABL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="REF_AGENCY_ID" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="ABL_DATE" Type="DateTime" Precision="0" />
+          <Property Name="CARE_BEGIN_DATE" Type="DateTime" Precision="0" />
+          <Property Name="RESID_VER_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PREG_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="COURT_EVAL_ID" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="PREV_INST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EPSDT_REF_DATE" Type="DateTime" Precision="0" />
+          <Property Name="IQ_TEST_DATE" Type="DateTime" Precision="0" />
+          <Property Name="POTENTIAL_ABL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SQ_TEST_DATE" Type="DateTime" Precision="0" />
+          <Property Name="CENSUS__" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="RESP_HOM_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="IQ_TEST_TYPE" Type="Int16" />
+          <Property Name="REQUEST_SVCS" Type="DateTime" Precision="0" />
+          <Property Name="REG_DATE" Type="DateTime" Precision="0" />
+          <Property Name="CARE_STAFF_DT" Type="DateTime" Precision="0" />
+          <Property Name="HLTH_INS_6" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_7" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LIVING_VER_ID" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="SQ_TEST_TYPE" Type="Int16" />
+          <Property Name="SQ_TEST_SCORE" Type="Int32" />
+          <Property Name="PREG_DATE" Type="DateTime" Precision="0" />
+          <Property Name="LTR_DAYS_BAL" Type="Int16" />
+          <Property Name="LPM_DAYS_BAL" Type="Int16" />
+          <Property Name="CODEP_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DEP_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EXPPAY_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_126" Type="Int32" />
+          <Property Name="PRIOR_SA" Type="Int16" />
+          <Property Name="NOT_USED_128" Type="Int32" />
+          <Property Name="NOT_USED_129" Type="Int32" />
+          <Property Name="NOT_USED_130" Type="Int32" />
+          <Property Name="NOT_USED_131" Type="Int32" />
+          <Property Name="SEXUAL_ORIENT" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_EXP_DATE" Type="DateTime" Precision="0" />
+          <Property Name="LST_STM_FISC_MO" Type="Int16" />
+          <Property Name="LST_STM_FISC_YR" Type="Int16" />
+          <Property Name="DATE_OF_DEATH" Type="DateTime" Precision="0" />
+          <Property Name="DOWNLOADED_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PP_BILL" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="PP_CARE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="GAF_SCORE" Type="Int16" />
+          <Property Name="LEGAL_ADMIT_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="RESP_REL_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="WORK_PHONE_OK" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VET_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SPEC_ED_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VOTER_REG_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_SERVICE_DT" Type="DateTime" Precision="0" />
+          <Property Name="PP_CARE_STAT" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="HOME_PHONE_OK" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SCHOOL_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="EXT_CASE__" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EXTCW_ID" Type="Int32" />
+          <Property Name="EMERG_WRK_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="REF_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="MCARE_A_B_IND" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TRIBE_ID" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_157" Type="Int32" />
+          <Property Name="NOT_USED_158" Type="Int32" />
+          <Property Name="WA_CLIENT_STAT" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_8" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_9" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ACTION_AUDIT_F" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ACCPT_APPT" Type="DateTime" Precision="0" />
+          <Property Name="DSM_DATE" Type="DateTime" Precision="0" />
+          <Property Name="HLTH_INS_8" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_9" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DSM_VERSION" Type="Int32" />
+          <Property Name="NOT_USED_168" Type="Int32" />
+          <Property Name="TITLE_XIX_IND" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="WA_OTH_INS_IND" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_5" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_6" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_7" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CARE_EXCLUDE_F" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMP_TYPE_ID" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="LIVE_ARRANGE_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_PH_EXT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="SUFFIX" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="WORK_PHONE_EXT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MIDDLE_NAME" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RES_HOUSTP_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SMI" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GRDLVL_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CITIZEN_FLAG" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BIRTH_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS_2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PRES_PROB_1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PRES_PROB_2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SEC_EX_NUM" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="REF_REAS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EMERG_ADDR2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_196" Type="DateTime" Precision="0" />
+          <Property Name="NOT_USED_197" Type="DateTime" Precision="0" />
+          <Property Name="NOT_USED_198" Type="DateTime" Precision="0" />
+          <Property Name="DAYS_OF_WORK" Type="Int16" />
+          <Property Name="ETH_ID_2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="ETH_ID_3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="COLLABORATIV_CD" Type="Int16" />
+          <Property Name="TIMES_ARREST_6M" Type="Int16" />
+          <Property Name="SAATTD_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DUDSCH_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="WAIT_LIST_DRTN" Type="Int16" />
+          <Property Name="RACE_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="LOCK_PRIM" Type="Int16" />
+          <Property Name="RESP_WRK_PH_EXT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ZIP4" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_211" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_212" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_213" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="NOT_USED_214" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_215" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_216" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_217" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_218" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NOT_USED_219" Type="Int32" />
+          <Property Name="NOT_USED_220" Type="Int32" />
+          <Property Name="RESP_WRK_PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="PCP_PH_EXT" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="MAG_DISTRICT_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_10" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_11" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_12" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_13" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_14" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_15" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLTH_INS_16" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_3" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_4" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_5" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_6" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_7" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_8" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_9" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_10" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_11" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_12" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_13" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_14" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_15" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_16" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_17" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_18" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_19" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_20" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="SRC_OF_INC_21" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VA_PP_MH" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VA_PP_SA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="VA_PP_MR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="IMPAIR_10" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="AnaliveEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CDCLIENTs" EntityType="Self.CDCLIENT" />
+          <EntitySet Name="CDASSIGNs" EntityType="analiveModel.CDASSIGN" />
+        </EntityContainer>
+        <EntityType Name="CDASSIGN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="RECNUM" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="CLIENT_ID" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="UNIT_ID" Type="Int16" Nullable="false" />
+          <Property Name="SUB_UNIT_ID" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="CLTRT_ID" Type="Int32" Nullable="false" />
+          <Property Name="SERVER_ID" Type="Decimal" Nullable="false" Precision="10" Scale="0" />
+          <Property Name="TTEAM_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DATE_OPENED" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DATE_CLOSED" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ADMIT_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TYPE_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="REAS_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="TRAN_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TRAN_APPROVE_F" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TRAN_FR_ASS_ID" Type="Int32" />
+          <Property Name="TRAN_TO_ASS_ID" Type="Int32" />
+          <Property Name="OPEN_HOUR" Type="Int16" />
+          <Property Name="OPEN_MINUTE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CLOSE_HOUR" Type="Int16" />
+          <Property Name="CLOSE_MINUTE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="AGENCY" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRESS" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ZIP_CODE" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="PHONE" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="CONTACT_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="REF_PROV_ID" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="REF_PROV_LNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="NOT_USED_30" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="DEST_PROV_ID" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="DEST_PROV_NAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DEST_PROV_TYPE" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="REL_ID" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LIVING_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="THER_LEAVE_DAYS" Type="Int16" />
+          <Property Name="NY_DISCH_STAT" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="PAT_PART_AMT" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="SING_PAR_FAM_F" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="USTF_PATIENT__" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="NM_LOC_OPENED" Type="Int16" />
+          <Property Name="NM_LOC_CLOSED" Type="Int16" />
+          <Property Name="PAT_STAT_ID" Type="Int16" />
+          <Property Name="ASSCAT_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CSI_ADM_CRIT" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CSI_LEGAL_ADM" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CSI_LEGAL_DC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="ENTERED_BY_ID" Type="Int32" />
+          <Property Name="ENTERED_DATE" Type="DateTime" Precision="0" />
+          <Property Name="DELETED_BY_ID" Type="Int32" />
+          <Property Name="DELETED_DATE" Type="DateTime" Precision="0" />
+          <Property Name="VOID_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MCAUTH_DEL_FLAG" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="OSHPD_ADMSITE" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="OSHPD_ADMROUTE" Type="Int16" />
+          <Property Name="OSHPD_ADMTYPE" Type="Int16" />
+          <Property Name="OSHPD_DNR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="WA_PROG_ID" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="WA_PROG_BEG_DT" Type="DateTime" Precision="0" />
+          <Property Name="WA_PROG_END_DT" Type="DateTime" Precision="0" />
+          <Property Name="REF_PROV_NPI" Type="Decimal" Precision="10" Scale="0" />
+          <Property Name="REF_PROV_LTYPE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="REF_PROV_FNAME" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CARE_LOC_CODE" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="TOC_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="analiveModelStoreContainer" CdmEntityContainer="AnaliveEntities">
+          <EntitySetMapping Name="CDCLIENTs">
+            <EntityTypeMapping TypeName="analiveModel.CDCLIENT">
+              <MappingFragment StoreEntitySet="CDCLIENT">
+                <ScalarProperty Name="RECNUM" ColumnName="RECNUM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CASE_NUM" ColumnName="CASE_NUM" />
+                <ScalarProperty Name="SORT_NAME" ColumnName="SORT_NAME" />
+                <ScalarProperty Name="VA_COG_DELAY" ColumnName="VA_COG_DELAY" />
+                <ScalarProperty Name="SEX" ColumnName="SEX" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="ETH_ID" ColumnName="ETH_ID" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="MI" ColumnName="MI" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="ZIP" ColumnName="ZIP" />
+                <ScalarProperty Name="ADDR_COUNTY_ID" ColumnName="ADDR_COUNTY_ID" />
+                <ScalarProperty Name="RES_COUNTY_ID" ColumnName="RES_COUNTY_ID" />
+                <ScalarProperty Name="RES_COUNTY_DATE" ColumnName="RES_COUNTY_DATE" />
+                <ScalarProperty Name="HOME_PHONE" ColumnName="HOME_PHONE" />
+                <ScalarProperty Name="WORK_PHONE" ColumnName="WORK_PHONE" />
+                <ScalarProperty Name="SOC_SEC_NUM" ColumnName="SOC_SEC_NUM" />
+                <ScalarProperty Name="STATUS_FLAG" ColumnName="STATUS_FLAG" />
+                <ScalarProperty Name="MAR_STATUS" ColumnName="MAR_STATUS" />
+                <ScalarProperty Name="PRIM_LANG_ID" ColumnName="PRIM_LANG_ID" />
+                <ScalarProperty Name="EDUC_ID" ColumnName="EDUC_ID" />
+                <ScalarProperty Name="HOUSE_TYPE_ID" ColumnName="HOUSE_TYPE_ID" />
+                <ScalarProperty Name="EXPECT_GRAD_DT" ColumnName="EXPECT_GRAD_DT" />
+                <ScalarProperty Name="SPECIAL_TRAIN" ColumnName="SPECIAL_TRAIN" />
+                <ScalarProperty Name="DOB_EST" ColumnName="DOB_EST" />
+                <ScalarProperty Name="SECTION_8_HOUSE" ColumnName="SECTION_8_HOUSE" />
+                <ScalarProperty Name="EMPLOYMENT_ID" ColumnName="EMPLOYMENT_ID" />
+                <ScalarProperty Name="SAI_ID" ColumnName="SAI_ID" />
+                <ScalarProperty Name="COMM_ID" ColumnName="COMM_ID" />
+                <ScalarProperty Name="EMERG_NAME" ColumnName="EMERG_NAME" />
+                <ScalarProperty Name="EMERG_ADDR1" ColumnName="EMERG_ADDR1" />
+                <ScalarProperty Name="EMERG_CITY" ColumnName="EMERG_CITY" />
+                <ScalarProperty Name="EMERG_ST" ColumnName="EMERG_ST" />
+                <ScalarProperty Name="EMERG_ZIP" ColumnName="EMERG_ZIP" />
+                <ScalarProperty Name="EMERG_REL_ID" ColumnName="EMERG_REL_ID" />
+                <ScalarProperty Name="EMERG_HOM_PHONE" ColumnName="EMERG_HOM_PHONE" />
+                <ScalarProperty Name="REF_SRC_NAME" ColumnName="REF_SRC_NAME" />
+                <ScalarProperty Name="INFORMANT_NAME" ColumnName="INFORMANT_NAME" />
+                <ScalarProperty Name="ENTTLE_ID" ColumnName="ENTTLE_ID" />
+                <ScalarProperty Name="REF_SOURCE_ID" ColumnName="REF_SOURCE_ID" />
+                <ScalarProperty Name="INFORMANT_PHONE" ColumnName="INFORMANT_PHONE" />
+                <ScalarProperty Name="RAPPT_ID" ColumnName="RAPPT_ID" />
+                <ScalarProperty Name="DATE_1ST_ASTP" ColumnName="DATE_1ST_ASTP" />
+                <ScalarProperty Name="PREFIX" ColumnName="PREFIX" />
+                <ScalarProperty Name="MAIL_OK" ColumnName="MAIL_OK" />
+                <ScalarProperty Name="RESP_ADDR2" ColumnName="RESP_ADDR2" />
+                <ScalarProperty Name="PCP_ADDR2" ColumnName="PCP_ADDR2" />
+                <ScalarProperty Name="NOT_USED_51" ColumnName="NOT_USED_51" />
+                <ScalarProperty Name="NOT_USED_52" ColumnName="NOT_USED_52" />
+                <ScalarProperty Name="TIMES_ARRESTED" ColumnName="TIMES_ARRESTED" />
+                <ScalarProperty Name="NOT_USED_54" ColumnName="NOT_USED_54" />
+                <ScalarProperty Name="NOT_USED_55" ColumnName="NOT_USED_55" />
+                <ScalarProperty Name="NOT_USED_56" ColumnName="NOT_USED_56" />
+                <ScalarProperty Name="NM_PP" ColumnName="NM_PP" />
+                <ScalarProperty Name="NOT_USED_58" ColumnName="NOT_USED_58" />
+                <ScalarProperty Name="EMERG_REL_SIGND" ColumnName="EMERG_REL_SIGND" />
+                <ScalarProperty Name="PCP_PRACT_NAME" ColumnName="PCP_PRACT_NAME" />
+                <ScalarProperty Name="LEGAL_STAT_ID" ColumnName="LEGAL_STAT_ID" />
+                <ScalarProperty Name="LEGAL_STAT_ID_2" ColumnName="LEGAL_STAT_ID_2" />
+                <ScalarProperty Name="RESP_NAME" ColumnName="RESP_NAME" />
+                <ScalarProperty Name="RESP_ADDR1" ColumnName="RESP_ADDR1" />
+                <ScalarProperty Name="RESP_CITY" ColumnName="RESP_CITY" />
+                <ScalarProperty Name="RESP_ST" ColumnName="RESP_ST" />
+                <ScalarProperty Name="RESP_ZIP" ColumnName="RESP_ZIP" />
+                <ScalarProperty Name="EMERG_REL_SN_DT" ColumnName="EMERG_REL_SN_DT" />
+                <ScalarProperty Name="PCP_REL_SIGNED" ColumnName="PCP_REL_SIGNED" />
+                <ScalarProperty Name="CLIENT_TYPE" ColumnName="CLIENT_TYPE" />
+                <ScalarProperty Name="CLIENT_RELATIVE" ColumnName="CLIENT_RELATIVE" />
+                <ScalarProperty Name="PCP_NAME" ColumnName="PCP_NAME" />
+                <ScalarProperty Name="PCP_ADDR1" ColumnName="PCP_ADDR1" />
+                <ScalarProperty Name="PCP_CITY" ColumnName="PCP_CITY" />
+                <ScalarProperty Name="PCP_ST" ColumnName="PCP_ST" />
+                <ScalarProperty Name="PCP_ZIP" ColumnName="PCP_ZIP" />
+                <ScalarProperty Name="PCP_PHONE" ColumnName="PCP_PHONE" />
+                <ScalarProperty Name="PRIM_UNIT_ID" ColumnName="PRIM_UNIT_ID" />
+                <ScalarProperty Name="PRIM_SUB_UNIT" ColumnName="PRIM_SUB_UNIT" />
+                <ScalarProperty Name="GROUP_CODE" ColumnName="GROUP_CODE" />
+                <ScalarProperty Name="NOT_USED_81" ColumnName="NOT_USED_81" />
+                <ScalarProperty Name="ALLERGIES" ColumnName="ALLERGIES" />
+                <ScalarProperty Name="PRIMARY_AXIS" ColumnName="PRIMARY_AXIS" />
+                <ScalarProperty Name="LAST_TREAT_PLAN" ColumnName="LAST_TREAT_PLAN" />
+                <ScalarProperty Name="PLAN_APPROVE_ID" ColumnName="PLAN_APPROVE_ID" />
+                <ScalarProperty Name="IQ_TEST_SCORE" ColumnName="IQ_TEST_SCORE" />
+                <ScalarProperty Name="HLTH_INS_1" ColumnName="HLTH_INS_1" />
+                <ScalarProperty Name="HLTH_INS_2" ColumnName="HLTH_INS_2" />
+                <ScalarProperty Name="HLTH_INS_3" ColumnName="HLTH_INS_3" />
+                <ScalarProperty Name="HLTH_INS_4" ColumnName="HLTH_INS_4" />
+                <ScalarProperty Name="HLTH_INS_5" ColumnName="HLTH_INS_5" />
+                <ScalarProperty Name="NOT_USED_92" ColumnName="NOT_USED_92" />
+                <ScalarProperty Name="INTK_APPT_DATE" ColumnName="INTK_APPT_DATE" />
+                <ScalarProperty Name="HISP_ORIG_ID" ColumnName="HISP_ORIG_ID" />
+                <ScalarProperty Name="APPT_WTHN_5DAYS" ColumnName="APPT_WTHN_5DAYS" />
+                <ScalarProperty Name="TD_CLIENT_ID" ColumnName="TD_CLIENT_ID" />
+                <ScalarProperty Name="CURRENT_ABL" ColumnName="CURRENT_ABL" />
+                <ScalarProperty Name="REF_AGENCY_ID" ColumnName="REF_AGENCY_ID" />
+                <ScalarProperty Name="ABL_DATE" ColumnName="ABL_DATE" />
+                <ScalarProperty Name="CARE_BEGIN_DATE" ColumnName="CARE_BEGIN_DATE" />
+                <ScalarProperty Name="RESID_VER_FLAG" ColumnName="RESID_VER_FLAG" />
+                <ScalarProperty Name="PREG_FLAG" ColumnName="PREG_FLAG" />
+                <ScalarProperty Name="COURT_EVAL_ID" ColumnName="COURT_EVAL_ID" />
+                <ScalarProperty Name="PREV_INST" ColumnName="PREV_INST" />
+                <ScalarProperty Name="EPSDT_REF_DATE" ColumnName="EPSDT_REF_DATE" />
+                <ScalarProperty Name="IQ_TEST_DATE" ColumnName="IQ_TEST_DATE" />
+                <ScalarProperty Name="POTENTIAL_ABL" ColumnName="POTENTIAL_ABL" />
+                <ScalarProperty Name="SQ_TEST_DATE" ColumnName="SQ_TEST_DATE" />
+                <ScalarProperty Name="CENSUS__" ColumnName="CENSUS_#" />
+                <ScalarProperty Name="RESP_HOM_PHONE" ColumnName="RESP_HOM_PHONE" />
+                <ScalarProperty Name="IQ_TEST_TYPE" ColumnName="IQ_TEST_TYPE" />
+                <ScalarProperty Name="REQUEST_SVCS" ColumnName="REQUEST_SVCS" />
+                <ScalarProperty Name="REG_DATE" ColumnName="REG_DATE" />
+                <ScalarProperty Name="CARE_STAFF_DT" ColumnName="CARE_STAFF_DT" />
+                <ScalarProperty Name="HLTH_INS_6" ColumnName="HLTH_INS_6" />
+                <ScalarProperty Name="HLTH_INS_7" ColumnName="HLTH_INS_7" />
+                <ScalarProperty Name="LIVING_VER_ID" ColumnName="LIVING_VER_ID" />
+                <ScalarProperty Name="SQ_TEST_TYPE" ColumnName="SQ_TEST_TYPE" />
+                <ScalarProperty Name="SQ_TEST_SCORE" ColumnName="SQ_TEST_SCORE" />
+                <ScalarProperty Name="PREG_DATE" ColumnName="PREG_DATE" />
+                <ScalarProperty Name="LTR_DAYS_BAL" ColumnName="LTR_DAYS_BAL" />
+                <ScalarProperty Name="LPM_DAYS_BAL" ColumnName="LPM_DAYS_BAL" />
+                <ScalarProperty Name="CODEP_FLAG" ColumnName="CODEP_FLAG" />
+                <ScalarProperty Name="DEP_FLAG" ColumnName="DEP_FLAG" />
+                <ScalarProperty Name="EXPPAY_ID" ColumnName="EXPPAY_ID" />
+                <ScalarProperty Name="NOT_USED_126" ColumnName="NOT_USED_126" />
+                <ScalarProperty Name="PRIOR_SA" ColumnName="PRIOR_SA" />
+                <ScalarProperty Name="NOT_USED_128" ColumnName="NOT_USED_128" />
+                <ScalarProperty Name="NOT_USED_129" ColumnName="NOT_USED_129" />
+                <ScalarProperty Name="NOT_USED_130" ColumnName="NOT_USED_130" />
+                <ScalarProperty Name="NOT_USED_131" ColumnName="NOT_USED_131" />
+                <ScalarProperty Name="SEXUAL_ORIENT" ColumnName="SEXUAL_ORIENT" />
+                <ScalarProperty Name="PCP_EXP_DATE" ColumnName="PCP_EXP_DATE" />
+                <ScalarProperty Name="LST_STM_FISC_MO" ColumnName="LST_STM_FISC_MO" />
+                <ScalarProperty Name="LST_STM_FISC_YR" ColumnName="LST_STM_FISC_YR" />
+                <ScalarProperty Name="DATE_OF_DEATH" ColumnName="DATE_OF_DEATH" />
+                <ScalarProperty Name="DOWNLOADED_FLAG" ColumnName="DOWNLOADED_FLAG" />
+                <ScalarProperty Name="PP_BILL" ColumnName="PP_BILL" />
+                <ScalarProperty Name="PP_CARE" ColumnName="PP_CARE" />
+                <ScalarProperty Name="GAF_SCORE" ColumnName="GAF_SCORE" />
+                <ScalarProperty Name="LEGAL_ADMIT_ID" ColumnName="LEGAL_ADMIT_ID" />
+                <ScalarProperty Name="RESP_REL_ID" ColumnName="RESP_REL_ID" />
+                <ScalarProperty Name="WORK_PHONE_OK" ColumnName="WORK_PHONE_OK" />
+                <ScalarProperty Name="VET_FLAG" ColumnName="VET_FLAG" />
+                <ScalarProperty Name="SPEC_ED_FLAG" ColumnName="SPEC_ED_FLAG" />
+                <ScalarProperty Name="VOTER_REG_ID" ColumnName="VOTER_REG_ID" />
+                <ScalarProperty Name="LAST_SERVICE_DT" ColumnName="LAST_SERVICE_DT" />
+                <ScalarProperty Name="PP_CARE_STAT" ColumnName="PP_CARE_STAT" />
+                <ScalarProperty Name="HOME_PHONE_OK" ColumnName="HOME_PHONE_OK" />
+                <ScalarProperty Name="SCHOOL_ID" ColumnName="SCHOOL_ID" />
+                <ScalarProperty Name="EXT_CASE__" ColumnName="EXT_CASE_#" />
+                <ScalarProperty Name="EXTCW_ID" ColumnName="EXTCW_ID" />
+                <ScalarProperty Name="EMERG_WRK_PHONE" ColumnName="EMERG_WRK_PHONE" />
+                <ScalarProperty Name="REF_PHONE" ColumnName="REF_PHONE" />
+                <ScalarProperty Name="MCARE_A_B_IND" ColumnName="MCARE_A_B_IND" />
+                <ScalarProperty Name="TRIBE_ID" ColumnName="TRIBE_ID" />
+                <ScalarProperty Name="NOT_USED_157" ColumnName="NOT_USED_157" />
+                <ScalarProperty Name="NOT_USED_158" ColumnName="NOT_USED_158" />
+                <ScalarProperty Name="WA_CLIENT_STAT" ColumnName="WA_CLIENT_STAT" />
+                <ScalarProperty Name="IMPAIR_8" ColumnName="IMPAIR_8" />
+                <ScalarProperty Name="IMPAIR_9" ColumnName="IMPAIR_9" />
+                <ScalarProperty Name="ACTION_AUDIT_F" ColumnName="ACTION_AUDIT_F" />
+                <ScalarProperty Name="ACCPT_APPT" ColumnName="ACCPT_APPT" />
+                <ScalarProperty Name="DSM_DATE" ColumnName="DSM_DATE" />
+                <ScalarProperty Name="HLTH_INS_8" ColumnName="HLTH_INS_8" />
+                <ScalarProperty Name="HLTH_INS_9" ColumnName="HLTH_INS_9" />
+                <ScalarProperty Name="DSM_VERSION" ColumnName="DSM_VERSION" />
+                <ScalarProperty Name="NOT_USED_168" ColumnName="NOT_USED_168" />
+                <ScalarProperty Name="TITLE_XIX_IND" ColumnName="TITLE_XIX_IND" />
+                <ScalarProperty Name="WA_OTH_INS_IND" ColumnName="WA_OTH_INS_IND" />
+                <ScalarProperty Name="IMPAIR_1" ColumnName="IMPAIR_1" />
+                <ScalarProperty Name="IMPAIR_2" ColumnName="IMPAIR_2" />
+                <ScalarProperty Name="IMPAIR_3" ColumnName="IMPAIR_3" />
+                <ScalarProperty Name="IMPAIR_4" ColumnName="IMPAIR_4" />
+                <ScalarProperty Name="IMPAIR_5" ColumnName="IMPAIR_5" />
+                <ScalarProperty Name="IMPAIR_6" ColumnName="IMPAIR_6" />
+                <ScalarProperty Name="IMPAIR_7" ColumnName="IMPAIR_7" />
+                <ScalarProperty Name="CARE_EXCLUDE_F" ColumnName="CARE_EXCLUDE_F" />
+                <ScalarProperty Name="EMP_TYPE_ID" ColumnName="EMP_TYPE_ID" />
+                <ScalarProperty Name="LIVE_ARRANGE_ID" ColumnName="LIVE_ARRANGE_ID" />
+                <ScalarProperty Name="EMERG_PH_EXT" ColumnName="EMERG_PH_EXT" />
+                <ScalarProperty Name="SUFFIX" ColumnName="SUFFIX" />
+                <ScalarProperty Name="WORK_PHONE_EXT" ColumnName="WORK_PHONE_EXT" />
+                <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
+                <ScalarProperty Name="RES_HOUSTP_ID" ColumnName="RES_HOUSTP_ID" />
+                <ScalarProperty Name="SMI" ColumnName="SMI" />
+                <ScalarProperty Name="GRDLVL_ID" ColumnName="GRDLVL_ID" />
+                <ScalarProperty Name="CITIZEN_FLAG" ColumnName="CITIZEN_FLAG" />
+                <ScalarProperty Name="BIRTH_NAME" ColumnName="BIRTH_NAME" />
+                <ScalarProperty Name="ADDRESS_2" ColumnName="ADDRESS_2" />
+                <ScalarProperty Name="PRES_PROB_1" ColumnName="PRES_PROB_1" />
+                <ScalarProperty Name="PRES_PROB_2" ColumnName="PRES_PROB_2" />
+                <ScalarProperty Name="SEC_EX_NUM" ColumnName="SEC_EX_NUM" />
+                <ScalarProperty Name="REF_REAS" ColumnName="REF_REAS" />
+                <ScalarProperty Name="EMERG_ADDR2" ColumnName="EMERG_ADDR2" />
+                <ScalarProperty Name="NOT_USED_196" ColumnName="NOT_USED_196" />
+                <ScalarProperty Name="NOT_USED_197" ColumnName="NOT_USED_197" />
+                <ScalarProperty Name="NOT_USED_198" ColumnName="NOT_USED_198" />
+                <ScalarProperty Name="DAYS_OF_WORK" ColumnName="DAYS_OF_WORK" />
+                <ScalarProperty Name="ETH_ID_2" ColumnName="ETH_ID_2" />
+                <ScalarProperty Name="ETH_ID_3" ColumnName="ETH_ID_3" />
+                <ScalarProperty Name="COLLABORATIV_CD" ColumnName="COLLABORATIV_CD" />
+                <ScalarProperty Name="TIMES_ARREST_6M" ColumnName="TIMES_ARREST_6M" />
+                <ScalarProperty Name="SAATTD_ID" ColumnName="SAATTD_ID" />
+                <ScalarProperty Name="DUDSCH_ID" ColumnName="DUDSCH_ID" />
+                <ScalarProperty Name="WAIT_LIST_DRTN" ColumnName="WAIT_LIST_DRTN" />
+                <ScalarProperty Name="RACE_ID" ColumnName="RACE_ID" />
+                <ScalarProperty Name="LOCK_PRIM" ColumnName="LOCK_PRIM" />
+                <ScalarProperty Name="RESP_WRK_PH_EXT" ColumnName="RESP_WRK_PH_EXT" />
+                <ScalarProperty Name="ZIP4" ColumnName="ZIP4" />
+                <ScalarProperty Name="NOT_USED_211" ColumnName="NOT_USED_211" />
+                <ScalarProperty Name="NOT_USED_212" ColumnName="NOT_USED_212" />
+                <ScalarProperty Name="NOT_USED_213" ColumnName="NOT_USED_213" />
+                <ScalarProperty Name="NOT_USED_214" ColumnName="NOT_USED_214" />
+                <ScalarProperty Name="NOT_USED_215" ColumnName="NOT_USED_215" />
+                <ScalarProperty Name="NOT_USED_216" ColumnName="NOT_USED_216" />
+                <ScalarProperty Name="NOT_USED_217" ColumnName="NOT_USED_217" />
+                <ScalarProperty Name="NOT_USED_218" ColumnName="NOT_USED_218" />
+                <ScalarProperty Name="NOT_USED_219" ColumnName="NOT_USED_219" />
+                <ScalarProperty Name="NOT_USED_220" ColumnName="NOT_USED_220" />
+                <ScalarProperty Name="RESP_WRK_PHONE" ColumnName="RESP_WRK_PHONE" />
+                <ScalarProperty Name="PCP_PH_EXT" ColumnName="PCP_PH_EXT" />
+                <ScalarProperty Name="MAG_DISTRICT_ID" ColumnName="MAG_DISTRICT_ID" />
+                <ScalarProperty Name="HLTH_INS_10" ColumnName="HLTH_INS_10" />
+                <ScalarProperty Name="HLTH_INS_11" ColumnName="HLTH_INS_11" />
+                <ScalarProperty Name="HLTH_INS_12" ColumnName="HLTH_INS_12" />
+                <ScalarProperty Name="HLTH_INS_13" ColumnName="HLTH_INS_13" />
+                <ScalarProperty Name="HLTH_INS_14" ColumnName="HLTH_INS_14" />
+                <ScalarProperty Name="HLTH_INS_15" ColumnName="HLTH_INS_15" />
+                <ScalarProperty Name="HLTH_INS_16" ColumnName="HLTH_INS_16" />
+                <ScalarProperty Name="SRC_OF_INC_1" ColumnName="SRC_OF_INC_1" />
+                <ScalarProperty Name="SRC_OF_INC_2" ColumnName="SRC_OF_INC_2" />
+                <ScalarProperty Name="SRC_OF_INC_3" ColumnName="SRC_OF_INC_3" />
+                <ScalarProperty Name="SRC_OF_INC_4" ColumnName="SRC_OF_INC_4" />
+                <ScalarProperty Name="SRC_OF_INC_5" ColumnName="SRC_OF_INC_5" />
+                <ScalarProperty Name="SRC_OF_INC_6" ColumnName="SRC_OF_INC_6" />
+                <ScalarProperty Name="SRC_OF_INC_7" ColumnName="SRC_OF_INC_7" />
+                <ScalarProperty Name="SRC_OF_INC_8" ColumnName="SRC_OF_INC_8" />
+                <ScalarProperty Name="SRC_OF_INC_9" ColumnName="SRC_OF_INC_9" />
+                <ScalarProperty Name="SRC_OF_INC_10" ColumnName="SRC_OF_INC_10" />
+                <ScalarProperty Name="SRC_OF_INC_11" ColumnName="SRC_OF_INC_11" />
+                <ScalarProperty Name="SRC_OF_INC_12" ColumnName="SRC_OF_INC_12" />
+                <ScalarProperty Name="SRC_OF_INC_13" ColumnName="SRC_OF_INC_13" />
+                <ScalarProperty Name="SRC_OF_INC_14" ColumnName="SRC_OF_INC_14" />
+                <ScalarProperty Name="SRC_OF_INC_15" ColumnName="SRC_OF_INC_15" />
+                <ScalarProperty Name="SRC_OF_INC_16" ColumnName="SRC_OF_INC_16" />
+                <ScalarProperty Name="SRC_OF_INC_17" ColumnName="SRC_OF_INC_17" />
+                <ScalarProperty Name="SRC_OF_INC_18" ColumnName="SRC_OF_INC_18" />
+                <ScalarProperty Name="SRC_OF_INC_19" ColumnName="SRC_OF_INC_19" />
+                <ScalarProperty Name="SRC_OF_INC_20" ColumnName="SRC_OF_INC_20" />
+                <ScalarProperty Name="SRC_OF_INC_21" ColumnName="SRC_OF_INC_21" />
+                <ScalarProperty Name="VA_PP_MH" ColumnName="VA_PP_MH" />
+                <ScalarProperty Name="VA_PP_SA" ColumnName="VA_PP_SA" />
+                <ScalarProperty Name="VA_PP_MR" ColumnName="VA_PP_MR" />
+                <ScalarProperty Name="IMPAIR_10" ColumnName="IMPAIR_10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CDASSIGNs">
+            <EntityTypeMapping TypeName="analiveModel.CDASSIGN">
+              <MappingFragment StoreEntitySet="CDASSIGN">
+                <ScalarProperty Name="TOC_FLAG" ColumnName="TOC_FLAG" />
+                <ScalarProperty Name="CARE_LOC_CODE" ColumnName="CARE_LOC_CODE" />
+                <ScalarProperty Name="REF_PROV_FNAME" ColumnName="REF_PROV_FNAME" />
+                <ScalarProperty Name="REF_PROV_LTYPE" ColumnName="REF_PROV_LTYPE" />
+                <ScalarProperty Name="REF_PROV_NPI" ColumnName="REF_PROV_NPI" />
+                <ScalarProperty Name="WA_PROG_END_DT" ColumnName="WA_PROG_END_DT" />
+                <ScalarProperty Name="WA_PROG_BEG_DT" ColumnName="WA_PROG_BEG_DT" />
+                <ScalarProperty Name="WA_PROG_ID" ColumnName="WA_PROG_ID" />
+                <ScalarProperty Name="OSHPD_DNR" ColumnName="OSHPD_DNR" />
+                <ScalarProperty Name="OSHPD_ADMTYPE" ColumnName="OSHPD_ADMTYPE" />
+                <ScalarProperty Name="OSHPD_ADMROUTE" ColumnName="OSHPD_ADMROUTE" />
+                <ScalarProperty Name="OSHPD_ADMSITE" ColumnName="OSHPD_ADMSITE" />
+                <ScalarProperty Name="MCAUTH_DEL_FLAG" ColumnName="MCAUTH_DEL_FLAG" />
+                <ScalarProperty Name="VOID_FLAG" ColumnName="VOID_FLAG" />
+                <ScalarProperty Name="DELETED_DATE" ColumnName="DELETED_DATE" />
+                <ScalarProperty Name="DELETED_BY_ID" ColumnName="DELETED_BY_ID" />
+                <ScalarProperty Name="ENTERED_DATE" ColumnName="ENTERED_DATE" />
+                <ScalarProperty Name="ENTERED_BY_ID" ColumnName="ENTERED_BY_ID" />
+                <ScalarProperty Name="CSI_LEGAL_DC" ColumnName="CSI_LEGAL_DC" />
+                <ScalarProperty Name="CSI_LEGAL_ADM" ColumnName="CSI_LEGAL_ADM" />
+                <ScalarProperty Name="CSI_ADM_CRIT" ColumnName="CSI_ADM_CRIT" />
+                <ScalarProperty Name="ASSCAT_ID" ColumnName="ASSCAT_ID" />
+                <ScalarProperty Name="PAT_STAT_ID" ColumnName="PAT_STAT_ID" />
+                <ScalarProperty Name="NM_LOC_CLOSED" ColumnName="NM_LOC_CLOSED" />
+                <ScalarProperty Name="NM_LOC_OPENED" ColumnName="NM_LOC_OPENED" />
+                <ScalarProperty Name="USTF_PATIENT__" ColumnName="USTF_PATIENT_#" />
+                <ScalarProperty Name="SING_PAR_FAM_F" ColumnName="SING_PAR_FAM_F" />
+                <ScalarProperty Name="PAT_PART_AMT" ColumnName="PAT_PART_AMT" />
+                <ScalarProperty Name="NY_DISCH_STAT" ColumnName="NY_DISCH_STAT" />
+                <ScalarProperty Name="THER_LEAVE_DAYS" ColumnName="THER_LEAVE_DAYS" />
+                <ScalarProperty Name="LIVING_ID" ColumnName="LIVING_ID" />
+                <ScalarProperty Name="REL_ID" ColumnName="REL_ID" />
+                <ScalarProperty Name="DEST_PROV_TYPE" ColumnName="DEST_PROV_TYPE" />
+                <ScalarProperty Name="DEST_PROV_NAME" ColumnName="DEST_PROV_NAME" />
+                <ScalarProperty Name="DEST_PROV_ID" ColumnName="DEST_PROV_ID" />
+                <ScalarProperty Name="NOT_USED_30" ColumnName="NOT_USED_30" />
+                <ScalarProperty Name="REF_PROV_LNAME" ColumnName="REF_PROV_LNAME" />
+                <ScalarProperty Name="REF_PROV_ID" ColumnName="REF_PROV_ID" />
+                <ScalarProperty Name="CONTACT_NAME" ColumnName="CONTACT_NAME" />
+                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
+                <ScalarProperty Name="ZIP_CODE" ColumnName="ZIP_CODE" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+                <ScalarProperty Name="AGENCY" ColumnName="AGENCY" />
+                <ScalarProperty Name="CLOSE_MINUTE" ColumnName="CLOSE_MINUTE" />
+                <ScalarProperty Name="CLOSE_HOUR" ColumnName="CLOSE_HOUR" />
+                <ScalarProperty Name="OPEN_MINUTE" ColumnName="OPEN_MINUTE" />
+                <ScalarProperty Name="OPEN_HOUR" ColumnName="OPEN_HOUR" />
+                <ScalarProperty Name="TRAN_TO_ASS_ID" ColumnName="TRAN_TO_ASS_ID" />
+                <ScalarProperty Name="TRAN_FR_ASS_ID" ColumnName="TRAN_FR_ASS_ID" />
+                <ScalarProperty Name="TRAN_APPROVE_F" ColumnName="TRAN_APPROVE_F" />
+                <ScalarProperty Name="TRAN_FLAG" ColumnName="TRAN_FLAG" />
+                <ScalarProperty Name="REAS_ID" ColumnName="REAS_ID" />
+                <ScalarProperty Name="TYPE_FLAG" ColumnName="TYPE_FLAG" />
+                <ScalarProperty Name="ADMIT_FLAG" ColumnName="ADMIT_FLAG" />
+                <ScalarProperty Name="DATE_CLOSED" ColumnName="DATE_CLOSED" />
+                <ScalarProperty Name="DATE_OPENED" ColumnName="DATE_OPENED" />
+                <ScalarProperty Name="TTEAM_ID" ColumnName="TTEAM_ID" />
+                <ScalarProperty Name="SERVER_ID" ColumnName="SERVER_ID" />
+                <ScalarProperty Name="CLTRT_ID" ColumnName="CLTRT_ID" />
+                <ScalarProperty Name="SUB_UNIT_ID" ColumnName="SUB_UNIT_ID" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="CLIENT_ID" ColumnName="CLIENT_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RECNUM" ColumnName="RECNUM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

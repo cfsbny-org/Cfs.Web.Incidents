@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Medical Assessment";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<section class="report-header">
+
+    <header><h3 data-bind="text: clientName"></h3></header>
+    <div class="report-header-info">
+        <div><span>Medical Assessment Date:</span> <span data-bind="text: moment(medAssmntDate()).format('M/D/YYYY h:mm a')"></span></div>
+        <div><span>Assessed By:</span> <span data-bind="text: staffName"></span></div>
+        <div><span>Created Date/Time:</span> <span data-bind="text: moment(createdStamp()).format('M/D/YYYY h:mm a')"></span></div>
+        <div><span>Status:</span><span data-bind="text: isOpen() ? 'Incomplete' : 'Completed'"></span></div>
+        
+    </div>
+</section>
+
+<p>Assessment Details:</p><p class="data-span" data-bind="text: medAssmnt"></p>
+
+
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Close</button>
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+
+        var MedicalViewModel = function () {
+            var self = this;
+
+            self.incidentMedicalId = ko.observable(@ViewBag.MedicalId);
+            self.clientName = ko.observable();
+            self.medAssmntDate = ko.observable();
+            self.staffName = ko.observable();
+            self.createdStamp = ko.observable();
+            self.isOpen = ko.observable();
+            self.medAssmnt = ko.observable();
+
+            Get('/api/medicals/' + self.incidentMedicalId(), null, function (data) {
+                self.clientName(data.clientName);
+                self.medAssmntDate(data.medAssmntDate);
+                self.staffName(data.staffName);
+                self.createdStamp(data.createdStamp);
+                self.isOpen(data.isOpen);
+                self.medAssmnt(data.medAssmnt);
+            });
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new MedicalViewModel());
+        });
+
+    </script>
+}

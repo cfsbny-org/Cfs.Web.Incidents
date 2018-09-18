@@ -1,0 +1,206 @@
+﻿@{
+    ViewBag.Title = "My Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+@section Sidebar {
+    @Html.Partial("_HomeNavMenu")
+}
+
+
+
+<div class="vertical-align">
+
+    <h1>CFS Incident Reports</h1>
+
+    <section>
+
+        <header><h2>My Open Reports</h2></header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Program</th>
+                    <th>Created</th>
+                    <th>Current Status</th>
+                    <th class="action-column">Medical Assessment</th>
+                    <th>
+
+                    </th>
+                    <th class="action-column">Action</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: reports">
+                <tr>
+                    <td><span data-bind="text: clientName"></span></td>
+                    <td><span data-bind="text: programTitle"></span></td>
+                    <td><span data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></td>
+                    <td><span data-bind="text: currentStatus"></span></td>
+                    <td class="action-column">
+                        <!-- ko if: medicalCompleted -->
+                        @*<button class="action-button">*@<span class="icon-aid-kit is-completed"></span>@*</button>*@
+                        <!-- /ko -->
+                        <!-- ko ifnot: medicalCompleted -->
+                        @*<button class="action-button">*@<span class="icon-aid-kit is-not-completed"></span>@*</button>*@
+                        <!-- /ko -->
+                    </td>
+                    <td></td>
+                    <td class="action-column">
+                        <!-- ko if: statusId < 3 -->  
+                            <button class="action-button" data-bind="click: $parent.EditReport"><span class="icon-pencil"></span> Open</button>
+                        <!-- /ko -->
+                        <button class="action-button" data-bind="click: $parent.ViewReport"><span class="icon-binoculars"></span> View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+    <section>
+
+
+        <header>
+            <h2>Reports Requiring My Signature</h2>
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Program</th>
+                    <th>Created</th>
+                    <th>Created By</th>
+                    <th>Current Status</th>
+                    <th class="action-column">Medical Assessment</th>
+                    <th>
+
+                    </th>
+                    <th class="action-column">Action</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: superReports">
+                <tr>
+                    <td><span data-bind="text: clientName"></span></td>
+                    <td><span data-bind="text: programTitle"></span></td>
+                    <td><span data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></td>
+                    <td><span data-bind="text: createdByName"></span></td>
+                    <td><span data-bind="text: currentStatus"></span></td>
+                    <td class="action-column">
+                        <!-- ko if: medicalCompleted -->
+                        @*<button class="action-button">*@<span class="icon-aid-kit is-completed"></span>@*</button>*@
+                        <!-- /ko -->
+                        <!-- ko ifnot: medicalCompleted -->
+                        @*<button class="action-button">*@<span class="icon-aid-kit is-not-completed"></span>@*</button>*@
+                        <!-- /ko -->
+                    </td>
+                    <td></td>
+                    <td class="action-column">
+                        <button class="action-button" data-bind="click: $parent.ViewReport"><span class="icon-binoculars"></span> View</button>
+                        <button class="action-button" data-bind="click: $parent.ApproveReport"><span class="icon-quill"></span> Sign</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var _reportId = 0;
+
+
+        var ReportsViewModel = function () {
+            var self = this;
+
+
+            self.userId = ko.observable(0);
+            self.userPass = ko.observable('');
+
+
+            self.reports = ko.observableArray();
+            self.superReports = ko.observableArray();
+
+
+
+
+
+
+            self.CreateReport = function () {
+                OpenDialog('/Report/Create', function () {
+                    if (_reportId != 0) {
+                        window.location = '/Report/Residential/' + _reportId;
+                    }
+                });
+            };
+
+
+            self.GetReports = function () {
+
+                var storage = window.localStorage;
+                if (storage.getItem('userId') === null) {
+                    SetUserSession(function () {
+
+                        self.userId(storage.getItem('userId'));
+                        Get('/api/reports/user/' + self.userId(), null, function (data) { self.reports(data); });
+                        Get('/api/reports/supervisor/' + self.userId(), null, function (data) { self.superReports(data); });
+                    });
+                }
+                else {
+                    self.userId(storage.getItem('userId'));
+                    Get('/api/reports/user/' + self.userId(), null, function (data) { self.reports(data); });
+                    Get('/api/reports/supervisor/' + self.userId(), null, function (data) { self.superReports(data); });
+                }
+
+            };
+
+
+
+            self.EditReport = function (report) {
+                if (report.incidentReportTypeId == 1) {
+                    window.location = '/Report/Residential/' + report.incidentId;
+                }
+                else if (report.incidentReportTypeId == 2) {
+                    window.location = '/Report/NonResidential/' + report.incidentId;
+                }
+            };
+
+
+            self.ApproveReport = function (report) {
+                window.location = '/Supervisor/Review/' + report.incidentId;
+            };
+
+            self.ViewReport = function (report) {
+                window.location = '/Report/Show/' + report.incidentId;
+            };
+
+            self.OpenReport = function (report) {
+            };
+
+
+            self.Initialize = function () {
+                self.GetReports();
+            };
+
+
+            self.Initialize();
+
+        };
+
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ReportsViewModel());
+        });
+
+
+    </script>
+}

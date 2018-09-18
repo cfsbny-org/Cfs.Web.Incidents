@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2e458ae5a8ed444aa518878964e388f3" Name="Diagram1" ZoomLevel="91">
+        <EntityTypeShape EntityType="CfsMasterModel.User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentAttachment" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentCategory" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentProgram" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentStaff" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentType" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportIncident" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportType" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.CostCenter" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentReport" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportStatus" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.IncidentDetail" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.NotifyParty" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportSign" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.Restraint" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ApprovalStatus" Width="1.5" PointX="10.75" PointY="10.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportSigType" Width="1.5" PointX="2.75" PointY="11.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ReportLog" Width="1.5" PointX="13.375" PointY="4.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.Medical" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.AdminComment" Width="1.5" PointX="5.375" PointY="13.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.ProgramNotifier" Width="1.5" PointX="13.375" PointY="7.75" />
+        <EntityTypeShape EntityType="CfsMasterModel.Notification" Width="1.5" PointX="7.375" PointY="13.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

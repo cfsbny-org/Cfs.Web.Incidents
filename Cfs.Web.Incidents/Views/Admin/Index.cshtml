@@ -1,0 +1,347 @@
+﻿
+@{
+    ViewBag.Title = "Admin Dashboard :: CFS Incident Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section AdditionalIncludes {
+    @Html.Partial("_Highcharts")
+}
+
+@section Sidebar {
+
+    <nav>
+        <ul>
+            <li><a href="/"><span class="icon-home3"></span> Home Page</a></li>
+            <li><a href="#" data-bind="click: OpenReports"><span class="icon-list2"></span> All Open Reports</a></li>
+            <li><a href="#" data-bind="click: SearchReports"><span class="icon-search"></span> Search Reports</a></li>
+            <li><a href="#" data-bind="click: EditNotifiers"><span class="icon-users"></span> Update Notifiers List</a></li>
+            <li><a href="#" data-bind="click: CreateAgendas"><span class="icon-file-word"></span> Generate Meeting Agendas</a></li>
+            <li><a href="#" data-bind="click: ShowHelp"><span class="icon-question"></span> Help and Information</a></li>
+        </ul>
+    </nav>
+}
+
+<h1>CFS Incident Reports: Adminstrator's Dashboard</h1>
+
+<section>
+    <header><h2>Reports Pending Administrative Review</h2></header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Program</th>
+                <th>Created</th>
+                <th>Created By</th>
+                <th>Current Status</th>
+                <th>
+
+                </th>
+                <th class="action-column">Action</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: adminReports">
+            <tr>
+                <td><span data-bind="text: clientName"></span></td>
+                <td><span data-bind="text: programTitle"></span></td>
+                <td><span data-bind="text: moment(createdStamp).format('M/D/YYYY h:mm a')"></span></td>
+                <td><span data-bind="text: createdByName"></span></td>
+                <td><span data-bind="text: currentStatus"></span></td>
+                <td></td>
+                <td class="action-column">
+                    <button class="action-button" data-bind="click: $parent.ViewReport"><span class="icon-binoculars"></span> View</button>
+                    <button class="action-button" data-bind="click: $parent.ApproveReport"><span class="icon-quill"></span> Sign</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <header><h2>Analysis</h2></header>
+
+    <div id="incident-counts" class="analysis-chart"></div>
+    <div class="flex-form">
+        <div id="incident-programs" class="analysis-chart-small"></div>
+        <div id="incident-types" class="analysis-chart-small"></div>
+    </div>
+    <div id="restraints-counts" class="analysis-chart"></div>
+    <div id="jc-calls" class="analysis-chart"></div>
+</section>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        var AdminViewModel = function () {
+            var self = this;
+
+            self.adminReports = ko.observableArray();
+
+
+
+
+            self.ShowHelp = function () {
+
+            };
+
+
+            self.OpenReports = function () {
+                window.location = '/Admin/AllReports';
+            };
+
+
+            self.SearchReports = function () {
+                window.location = '/Admin/Search';
+            };
+
+
+            self.ViewReport = function (report) {
+                window.location = '/Admin/Show/' + report.incidentId;
+            };
+
+
+            self.ApproveReport = function (report) {
+                window.location = '/Admin/Review/' + report.incidentId;
+            };
+
+
+            self.EditNotifiers = function () {
+                OpenDialog('/Admin/Notifiers');
+            };
+
+
+            self.CreateAgendas = function () {
+                OpenDialog('/Admin/Agendas');
+            };
+
+
+            self.Initialize = function () {
+
+
+                Get('/api/reports/admin', null, function (data) { self.adminReports(data); });
+                
+
+                var incidentCountsOptions = {
+
+                    chart: {
+                        renderTo: 'incident-counts',
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Incidents by Month'
+                    },
+                    subtitle: {
+                        text: 'Reported incidents during the past year'
+                    },
+                    xAxis: {
+                        categories: [],
+                        allowDecimals: false,
+                        tickInterval: 1
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Reported Incidents'
+                        },
+                        min: 0,
+                        allowDecimals: false
+                    },
+                    series: []
+                };
+
+                Get('/api/charts/incidents', null, function (data) {
+                    incidentCountsOptions.xAxis.categories = data[0]['data'];
+                    incidentCountsOptions.series[0] = data[1];
+                    incidentCountsOptions.series[0].color = 'rgb(166,56,96)';
+                    chart = new Highcharts.Chart(incidentCountsOptions);
+                });
+
+
+                var incidentProgramsOptions = {
+
+                    chart: {
+                        renderTo: 'incident-programs',
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Incidents by Program'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: 'rgb(250,250,250)',
+                                    font: '300 14px Lato, Segoe UI, sans-serif'
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br />Count: {point.y}'
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Incidents',
+                        data: []
+                    }]
+                };
+
+                Get('/api/charts/programs', null, function (data) {
+                    var series = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var serie = new Array(data[i].dataName, data[i].dataValue);
+                        series.push(serie);
+                    }
+                    //console.log(series);
+                    incidentProgramsOptions.series[0].data = series;
+                    chart = new Highcharts.Chart(incidentProgramsOptions);
+                });
+
+
+                var incidentTypesOptions = {
+
+                    chart: {
+                        renderTo: 'incident-types',
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Incidents by Type'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: 'rgb(250,250,250)',
+                                    font: '300 14px Lato, Segoe UI, sans-serif'
+                                }
+                            }
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b><br />Count: {point.y}'
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Incidents',
+                        data: []
+                    }]
+                };
+
+                Get('/api/charts/incidentTypes', null, function (data) {
+                    var series = [];
+                    for (var i = 0; i < data.length; i++) {
+                        var serie = new Array(data[i].dataName, data[i].dataValue);
+                        series.push(serie);
+                    }
+                    //console.log(series);
+                    incidentTypesOptions.series[0].data = series;
+                    chart = new Highcharts.Chart(incidentTypesOptions);
+                });
+
+
+
+                var restraintsCountsOptions = {
+
+                    chart: {
+                        renderTo: 'restraints-counts',
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Restraints by Month'
+                    },
+                    subtitle: {
+                        text: 'Reported incidents with restraints during the past year'
+                    },
+                    xAxis: {
+                        categories: [],
+                        allowDecimals: false,
+                        tickInterval: 1
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Reported Restraints'
+                        },
+                        min: 0,
+                        allowDecimals: false
+                    },
+                    series: []
+                };
+
+                Get('/api/charts/restraints', null, function (data) {
+                    restraintsCountsOptions.xAxis.categories = data[0]['data'];
+                    restraintsCountsOptions.series[0] = data[1];
+                    restraintsCountsOptions.series[0].color = 'rgb(166,56,96)';
+                    chart = new Highcharts.Chart(restraintsCountsOptions);
+                });
+
+
+
+                var jcCallsOptions = {
+
+                    chart: {
+                        renderTo: 'jc-calls',
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Justice Center Calls'
+                    },
+                    xAxis: {
+                        categories: [],
+                        allowDecimals: false,
+                        tickInterval: 1
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Calls'
+                        },
+                        min: 0,
+                        allowDecimals: false
+                    },
+                    series: []
+                };
+
+                Get('/api/charts/justice/month', null, function (data) {
+                    jcCallsOptions.xAxis.categories = data[0]['data'];
+                    jcCallsOptions.series[0] = data[1];
+                    jcCallsOptions.series[0].color = 'rgb(166,56,96)';
+                    chart = new Highcharts.Chart(jcCallsOptions);
+                });
+
+                
+
+                /*
+
+                    options.xAxis.categories = data.categories;
+			        options.series[0].name = 'Impression';
+			        options.series[0].data = data.impression;
+			        options.series[1].name = 'Click';
+			        options.series[1].data = data.clicks;
+			        var chart = new Highcharts.Chart(options);	
+                */
+            };
+
+
+            self.Initialize();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new AdminViewModel());
+        });
+
+
+    </script>
+}
+

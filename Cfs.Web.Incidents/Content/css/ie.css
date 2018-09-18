@@ -1,0 +1,7 @@
+﻿.fancybox-skin {
+    background: rgba(0,0,0,0.9) !important;
+}
+
+body.dialog header.dialog-header {
+    background: rgb(115,47,72) !important;
+}

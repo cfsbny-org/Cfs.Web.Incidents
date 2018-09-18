@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "Add Notification";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="flex-form">
+
+    <div class="form-control">
+        <label>Party Notified: <select data-bind="options: parties, optionsText: 'notifyPartyText', value: notifiedParty"></select></label>
+    </div>
+
+    <div class="form-control">
+        <label>Date: <input type="text" size="12" maxlength="10" placeholder="**Required**" data-bind="datepicker: notifyDate" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Time: <input type="text" size="12" maxlength="10" placeholder="**Required**" data-bind="value: notifyTime" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Person Contacted: <input type="text" size="80" maxlength="255" placeholder="**Required**" data-bind="value: notifyContact" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Method: <input type="text" size="20" maxlength="50" placeholder="**Required**" spellcheck="true" data-bind="value: notifyMethod" required /></label>
+    </div>
+
+    <div class="form-control" data-bind="visible: needsInfo">
+        <label><span data-bind="text: infoCaption"></span> <input type="text" size="20" maxlength="50" data-bind="value: notifyInfo, attr: { placeholder: infoPlaceholder }" required /></label>
+    </div>
+
+
+    <div class="form-control">
+        <label>Completed by Me?</label>
+        <label><input type="radio" name="completed-by-me" value="true" data-bind="checked: completedByMe" /> Yes</label>
+        <label><input type="radio" name="completed-by-me" value="false" data-bind="checked: completedByMe" /> No</label>
+    </div>
+
+    <div class="form-control" data-bind="visible: (completedByMe)">
+        <label>Staff Completed: <input type="text" size="80" placeholder="**Required** Type the first few letters of the last name and select from list." required data-bind="value: staffName, autoComplete:{ minLength: 3, source: SearchStaff, select: SelectStaff }" /></label>
+    </div>
+
+</div>
+
+
+<div class="form-control">
+    <label>Comments: <textarea rows="10" cols="120" maxlength="500" spellcheck="true" placeholder="Additional comments/notes about this notification or conversation." data-bind="value: notification.notifyComments"></textarea></label>
+</div>
+
+<button data-bind="click: SaveNotification"><span class="icon-floppy-disk"></span> Save</button>
+@*<button data-bind="click: SaveNotification.bind($data, true)"><span class="icon-floppy-disk"></span><span class="icon-cross"></span> Save and Close</button>*@
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Close</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        
+
+        var NotificationsViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+
+            self.notifiedParty = ko.observable();
+
+            self.notificationId = ko.observable(@ViewBag.NotificationId);
+            self.reportTypeId = ko.observable(@ViewBag.ReportTypeId);
+            self.notifyPartyId = ko.observable().extend({ required: true });
+            self.notifyContact = ko.observable().extend({ required: true });
+            self.notifyMethod = ko.observable().extend({ required: true });
+            self.notifyComments = ko.observable();
+            self.incidentId = ko.observable(parent._reportId);
+            self.parties = ko.observableArray();
+            self.notifyStaffId = ko.observable();
+            self.completedByMe = ko.observable(true);
+            self.staffName = ko.observable().extend({ required: true });
+            self.notifyDate = ko.observable(moment(new Date()).format('M/D/YYYY')).extend({ required: true });
+            self.notifyTime = ko.observable().extend({
+                required: true,
+                pattern: {
+                    message: 'Input must be in the form of xx:xx AM',
+                    params: patterns.time
+                }
+            });
+            self.needsInfo = ko.observable();
+            self.infoCaption = ko.observable();
+            self.infoPlaceholder = ko.observable();
+            self.validMessage = ko.observable();
+
+            self.notifyInfo = ko.observable().extend({
+                required: {
+                    message: self.validMessage(),
+                    onlyIf: function () { self.needsInfo(); }
+                }
+            });
+
+            self.notification = {};
+
+
+            self.Initialize = function () {
+                
+                Get('/api/notifications/edit/' + self.notificationId(), null, function (data) {
+                    
+                    Get('/api/notifyparties/' + self.reportTypeId(), null, function (data) {
+                        self.parties(data);
+
+                        self.notifiedParty.subscribe(function (selection) {
+                            
+                            self.notifyPartyId(selection.notifyPartyId);
+                            self.notifyContact(selection.contactDefault);
+                            self.notifyMethod(selection.methodDefault);
+                            self.needsInfo(selection.needsInfo);
+                            self.infoCaption(selection.infoCaption);
+                            self.infoPlaceholder(selection.infoPlaceholder);
+                            self.validMessage(selection.validMessage);
+                        });
+                        
+                    });
+
+                });
+
+            };
+
+
+            self.SaveNotification = function () {
+
+                if (self.errors().length == 0) {
+
+                    //self.notifyDateTime(self.notifyDate() + ' ' + self.notifyTime());
+                    var storage = window.localStorage;
+
+                    var notification = {
+                        notificationId: self.notificationId(),
+                        incidentId: self.incidentId(),
+                        notifyPartyId: self.notifyPartyId(),
+                        notifyDateTime: moment(self.notifyDate()).format('M/D/YYYY') + ' ' + self.notifyTime(),
+                        notifyContact : self.notifyContact(),
+                        notifyMethod: self.notifyMethod(),
+                        notifyComments: self.notifyComments(),
+                        notifyStaffId: self.notifyStaffId(),
+                        notifyInfo: self.notifyInfo(),
+                        isAcknowledged: 2,
+                        acknowledgeUserId: storage.getItem('userId'),
+                        acknowledgedStamp: moment(new Date()).format('M/D/YYYY H:mm'),
+                        acknowledgedStation: storage.getItem('stationInfo')
+                    };
+
+                    Post('/api/notifications', notification, function () {
+
+                        parent.$.fancybox.close();
+
+                    });
+
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+
+            };
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+            self.SearchStaff = function (request, response) {
+
+                Get('/api/staff/search/' + request.term, null, function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.staffName,
+                            value: item.userId,
+                            jobTitle: item.jobTitle
+                        };
+                    }));
+                });
+            };
+
+
+
+            self.SelectStaff = function (event, ui) {
+                self.notifyStaffId(ui.item.value);
+                self.staffName(ui.item.label);
+                return false;
+            };
+
+
+
+
+            self.Initialize();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new NotificationsViewModel());
+        });
+
+
+    </script>
+}
+

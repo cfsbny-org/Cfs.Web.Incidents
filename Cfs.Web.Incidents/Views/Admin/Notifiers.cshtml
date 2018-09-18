@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Update Notifiers List";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="form-control">
+    <label>Program: <select data-bind="options: programs, optionsText: 'programTitle', optionsValue: 'incidentProgramId', optionsCaption: 'Select Program', value: selectedProgram"></select></label>
+</div>
+
+<div data-bind="visible: selectedProgram() != null">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Notification Level</th>
+                <th>Staff Name/Position</th>
+                <th>E-Mail Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: notifiers">
+            <tr>
+                <td><span data-bind="text: notifyPartyText"></span></td>
+                <td><span data-bind="text: staffName"></span></td>
+                <td><span data-bind="text: emailAddress"></span></td>
+                <td>
+                    <button class="action-button"><span class="icon-pencil"></span> Update</button>
+                    <button class="action-button"><span class="icon-bin"></span> Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var NotifiersViewModel = function () {
+            var self = this;
+
+
+            self.notifiers = ko.observableArray();
+            self.selectedProgram = ko.observable();
+            self.programs = ko.observableArray();
+
+
+            self.init = function () {
+                Get('/api/programs', null, function (data) {
+                    self.programs(data);
+                });
+            };
+
+
+
+            self.GetNotifiers = function () {
+                Get('/api/programnotifiers/program/' + self.selectedProgram(), null, function (data) {
+                    self.notifiers(data);
+                });
+            };
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+
+            self.selectedProgram.subscribe(function (newProgram) {
+                self.GetNotifiers();
+            });
+
+            
+
+
+            self.init();
+        };
+
+
+        var Notifier = function () {
+            var self = this;
+        };
+
+
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new NotifiersViewModel());
+        });
+
+    </script>
+
+}
+

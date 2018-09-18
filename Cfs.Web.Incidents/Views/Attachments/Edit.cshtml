@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Edit Attachment Details";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<!-- ko if: attachmentTypeId() == 1 -->
+
+<div class="edit-photo-view">
+    <img class="attached-photo" data-bind="attr: { src: attachmentUrl }">
+</div>
+
+<!-- /ko -->
+
+
+
+<!-- ko if: attachmentTypeId() == 2 -->
+
+
+<!-- /ko -->
+
+
+
+<div class="form-control">
+    <label>Photo Title/Short Description: <input type="text" size="80" maxlength="150" spellcheck="true" placeholder="Please give a short description of the photo." data-bind="value: attachmentTitle" /></label>
+</div>
+
+<div class="form-control">
+    <label>Comments: <textarea rows="4" maxlength="500" spellcheck="true" data-bind="value: attachmentComments"></textarea></label>
+</div>
+
+
+
+<button data-bind="click: SaveAttachment"><span class="icon-floppy-disk"></span> Save</button>
+<button data-bind="click: VoidAttachment"><span class="icon-bin2"></span> Delete</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+
+        var AttachmentViewModel = function () {
+            var self = this;
+            
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.incidentAttachmentId = ko.observable(@ViewBag.AttachmentId);
+            self.incidentId = ko.observable();
+            self.attachmentTypeId = ko.observable();
+            self.attachmentUrl = ko.observable();
+            self.attachmentTitle = ko.observable();
+            self.attachmentComments = ko.observable();
+            self.uploadedBy = ko.observable();
+            self.uploadedStamp = ko.observable();
+
+            
+            self.Initialize = function () {
+
+                Get('/api/attachments/' + self.incidentAttachmentId(), null, function (data) {
+                    self.incidentId(data.incidentId);
+                    self.attachmentTypeId(data.attachmentTypeId);
+                    self.attachmentUrl(data.attachmentUrl);
+                    self.attachmentTitle(data.attachmentTitle);
+                    self.attachmentComments(data.attachmentComments);
+                    self.uploadedBy(data.uploadedBy);
+                    self.uploadedStamp(data.uploadedStamp);
+                });
+            };
+
+
+
+            self.SaveAttachment = function () {
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+                    var attachment = {
+                        incidentAttachmentId: self.incidentAttachmentId,
+                        incidentId: self.incidentId(),
+                        attachmentTypeId: self.attachmentTypeId(),
+                        attachmentUrl: self.attachmentUrl(),
+                        attachmentTitle: self.attachmentTitle(),
+                        attachmentComments: self.attachmentComments(),
+                        uploadedBy: self.uploadedBy(),
+                        uploadedStamp: self.uploadedStamp()
+                    };
+                    Post('/api/attachments/', attachment, function () {
+                        ShowNotification('Attachment updated.');
+                        WriteToLog(self.incidentId(), storage.getItem('userId'), storage.getItem('stationInfo'), 'Attachment updated: ' + self.incidentAttachmentId());
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+            self.VoidAttachment = function () {
+                Delete('/api/attachments/' + self.incidentAttachmentId(), null, function () {
+                    WriteToLog(self.incidentId(), storage.getItem('userId'), storage.getItem('stationInfo'), 'Attachment voided: ' + self.incidentAttachmentId());
+                    parent.$.fancybox.close();
+                });
+            };
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+            self.Initialize();
+
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new AttachmentViewModel());
+        });
+    </script>
+}

@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Medical Assessment: Final Approve";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<div class="form-control">
+    <label>Signature: <input type="password" size="40" maxlength="30" data-bind="value: signature" required placeholder="Sign with your Windows password." /></label>
+</div>
+
+
+<button data-bind="click: ApproveReport"><span class="icon-checkmark"></span> Approve</button>
+<button data-bind="click: CancelApproval"><span class="icon-cross"></span> Cancel</button>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var SignatureViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.signature = ko.observable().extend({ required: { message: 'Please enter your password before submitting.' } });
+            
+            self.CancelApproval = function () {
+                parent.$.fancybox.close();
+            }
+
+
+            self.ApproveReport = function () {
+
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+
+                    var signature = {
+                        incidentId: parent.medicalViewModel.incidentId(),
+                        incidentMedicalId: parent.medicalViewModel.incidentMedicalId(),
+                        statusId: 3,
+                        currentUser: storage.getItem('userId'),
+                        userName: storage.getItem('userName'),
+                        signature: self.signature(),
+                        staffName: storage.getItem('fullName'),
+                        staffTitle: storage.getItem('jobTitle'),
+                        stationName: storage.getItem('stationInfo')
+                    };
+
+                    Post('/api/medicals/approve', signature, function (data) {
+                        parent.window.location = "/Medicals";
+                    });
+                    
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+            //self.Initalize();
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new SignatureViewModel());
+        });
+
+
+
+    </script>
+}
+
+
+
+

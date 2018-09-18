@@ -1,0 +1,714 @@
+﻿@{
+    ViewBag.Title = "Administrative Review";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+
+@section Sidebar {
+    
+    <nav>
+        <ul>
+            <li><a data-bind="click: CloseReport"><span class="icon-user-tie"></span> Admin Dashboard</a></li>
+            <li><a data-bind="click: LockReport, disable: statusId() == 5"><span class="icon-lock"></span> Lock Report</a></li>
+            <li><a data-bind="click: ViewDiary"><span class="icon-book"></span> View Report Diary</a></li>
+            <li><a data-bind="click: ApproveReport"><span class="icon-checkmark"></span> Final Approve or Deny</a></li>
+            <li><a data-bind="click: PreviewReport"><span class="icon-printer"></span> Preview Report</a></li>
+            <li><a data-bind="click: VoidReport"><span class="icon-angry"></span> Void Report</a></li>
+        </ul>
+    </nav>
+}
+
+
+<div id="report-details">
+    
+    <h1>Residential Services Incident Report</h1>
+
+    <div class="report-scroll-header">
+        <h2 data-bind="text: clientName"></h2>
+        <div><span>Incident Date:</span> <!-- ko if: isApproximate -->
+<span data-bind="text: moment(incidentDate()).format('MMM YYYY') + ' (Approximate)'"></span>
+<!-- /ko -->
+<!-- ko ifnot: isApproximate -->
+<span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span>
+<!-- /ko --></div>
+    </div>
+
+
+    <section class="report-header">
+
+        <header><h2 data-bind="text: clientName"></h2></header>
+        <div class="report-header-info">
+            <div>
+                <span>Incident Date:</span>
+                <!-- ko if: isApproximate -->
+                <span data-bind="text: moment(incidentDate()).format('MMM YYYY') + ' (Approximate)'"></span>
+                <!-- /ko -->
+                <!-- ko ifnot: isApproximate -->
+                <span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span>
+                <!-- /ko -->
+            </div>
+            <div><span>Program:</span> <span data-bind="text: programTitle"></span></div>
+            <div><span>Created By:</span> <span data-bind="text: createdByName"></span></div>
+            <div><span>Created Date/Time:</span> <span data-bind="text: moment(createdStamp()).format('M/D/YYYY h:mm a')"></span></div>
+            <div><span>Current Status:</span> <span data-bind="text: currentStatus"></span></div>
+        </div>
+
+    </section>
+
+    
+
+    <div class="flex-form">
+
+        <section>
+            <header><h3>Reportable Incidents: Abuse/Neglect</h3></header>
+
+
+            <!-- ko if: reportableIncidents().length > 0 -->
+            <table class="auto-width">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: reportableIncidents">
+                    <tr>
+                        <td><span data-bind="text: incidentTypeText"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- /ko -->
+            <!-- ko ifnot: reportableIncidents().length > 0 -->
+            <p>No reportable incidents have been selected.</p>
+            <!-- /ko -->
+        </section>
+
+
+        <section>
+            <header><h3>Significant Incidents</h3></header>
+
+
+
+            <!--ko if: significantIncidents().length > 0 -->
+            <table class="auto-width">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Additional Information</th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: significantIncidents">
+                    <tr>
+                        <td><span data-bind="text: incidentTypeText"></span></td>
+                        <td><span data-bind="text: incidentInfo"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- /ko -->
+            <!--ko ifnot: significantIncidents().length > 0 -->
+            <p>No Significant Incidents have been selected.</p>
+            <!-- /ko -->
+        </section>
+
+
+
+    </div>
+
+
+    <section>
+
+        <header><h3>Restraints</h3></header>
+
+
+
+        <!-- ko if: restraints().length > 0 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Length</th>
+                    <th>Post-Restraint Process</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: restraints">
+                <tr>
+                    <td><span data-bind="text: restraintType"></span></td>
+                    <td><span data-bind="text: moment(restraintStart).format('H:mm a')"></span></td>
+                    <td><span data-bind="text: moment(restraintEnd).format('H:mm a')"></span></td>
+                    <td><span data-bind="text: restraintLength + ' minutes'"></span></td>
+                    <td><span data-bind="text: postProcess"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+        <!-- ko ifnot: restraints().length > 0 -->
+        <p>No restraints have been reported on this report.</p>
+        <!-- /ko -->
+    </section>
+
+
+    <section>
+        <header><h3>Internal Event</h3></header>
+
+        <!--ko if: internalEvents().length > 0 -->
+        <table class="auto-width">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Additional Info</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: internalEvents">
+                <tr>
+                    <td><span data-bind="text: incidentTypeText"></span></td>
+                    <td><span data-bind="text: incidentInfo"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+        <!--ko ifnot: internalEvents().length > 0 -->
+        <p>No Internal Events have been selected.</p>
+        <!-- /ko -->
+    </section>
+
+
+    <section>
+
+
+
+        <p>Briefly describe the incident, using only known facts:</p>
+        <p data-bind="text: incidentDetails" class="report-text"></p>
+
+
+
+        <p>In what activity was the child involved when the incident occurred?</p>
+        <p data-bind="text: childActivity" class="report-text"></p>
+
+        <p>List immediate protective actions taken to safeguard the child:</p>
+        <p data-bind="text: protectiveActions" class="report-text"></p>
+
+
+    </section>
+
+
+
+    <section>
+        <header><h3>Staff Comments</h3></header>
+
+        <p>Additional Note/Comments about the incident: </p>
+        <p data-bind="text: incidentComments"></p>
+
+    </section>
+
+
+
+
+    <section>
+        <header><h3>Additional Staff</h3></header>
+
+        <p>Please add additional staff present at the time of the incident:</p>
+
+
+        <!-- ko if: staffs().length > 0 -->
+        <table class="auto-width">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Title</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: staffs">
+                <tr>
+                    <td><span data-bind="text: staffName"></span></td>
+                    <td><span data-bind="text: staffTitle"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+
+    </section>
+
+
+
+    <section>
+
+        <header><h3>Attachments</h3></header>
+
+
+
+
+        <section>
+
+            <header><h4>Attached Photos</h4></header>
+
+            <button data-bind="click: AddPhoto"><span class="icon-file-picture"></span> Upload Photo</button>
+
+            <!-- ko if: attachedPhotos().length > 0 -->
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Details</th>
+                        <th>Title</th>
+                        <th>Comments</th>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: attachedPhotos">
+                    <tr>
+                        <td width="200px">
+                            <a data-bind="attr: { href: attachmentUrl, title: attachmentTitle }" class="fb-photos" rel="attached-photo"><img class="attached-photo" data-bind="attr: { src: attachmentUrl }" /></a>
+                        </td>
+                        <td width="20%">
+                            <div>Uploaded by: <span data-bind="text: staffName"></span></div>
+                            <div>Date/Time Uploaded: <span data-bind="text: moment(uploadedStamp).format('M/D/YYYY h:mm a')"></span></div>
+                        </td>
+                        <td><span data-bind="text: attachmentTitle"></span></td>
+                        <td width="30%;"><span data-bind="text: attachmentComments"></span></td>
+                        <td>
+                            <button class="action-button" data-bind="click: $parent.EditPhoto"><span class="icon-pencil"></span></button>
+                            <button class="action-button"><span class="icon-bin"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- /ko -->
+            <!-- ko ifnot: attachedPhotos().length > 0 -->
+            <p>No photos have been attached to this report.</p>
+            <!-- /ko -->
+        </section>
+
+
+        <section>
+
+            <header><h4>Attached Documents</h4></header>
+
+            <button data-bind="click: AddDocument"><span class="icon-file-pdf"></span> Upload Document</button>
+
+            <!-- ko if: attachedDocuments().length > 0 -->
+            <table class="auto-width">
+                <thead>
+                    <tr>
+                        <th>Document</th>
+                        <th>Details</th>
+                        <th>Comments</th>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: attachedDocuments">
+                    <tr>
+                        <td>
+                            <a target="_blank" data-bind="attr: { href: attachmentUrl, title: attachmentTitle }"><span data-bind="text: attachmentTitle"></span></a>
+                        </td>
+                        <td>
+                            <div>Uploaded by: <span data-bind="text: staffName"></span></div>
+                            <div>Date/Time Uploaded: <span data-bind="text: moment(uploadedStamp).format('M/D/YYYY h:mm a')"></span></div>
+                        </td>
+                        <td><span data-bind="text: attachmentComments"></span></td>
+                        <td>
+                            <button class="action-button"><span class="icon-pencil"></span></button>
+                            <button class="action-button"><span class="icon-bin"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- /ko -->
+            <!-- ko ifnot: attachedDocuments().length > 0 -->
+            <p>No documents have been attached to this report.</p>
+            <!-- /ko -->
+        </section>
+
+    </section>
+
+
+
+
+    <section>
+        <header><h3>Notifications</h3></header>
+
+        <button data-bind="click: AddNotification"><span class="icon-notification"></span> Add Notification</button>
+
+        <!-- ko if: notifications().length > 0-->
+        <table>
+            <thead>
+                <tr>
+                    <th>Party Contacted</th>
+                    <th>When Contacted</th>
+                    <th>Person Contacted</th>
+                    <th>Method Contacted</th>
+                    <th>Completed By</th>
+                    <th>Other Information</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: notifications">
+                <tr>
+                    <td><span data-bind="text: notifyPartyText"></span></td>
+                    <td><span data-bind="text: moment(notifyDateTime).format('M/D/YYYY H:mm a')"></span></td>
+                    <td><span data-bind="text: notifyContact"></span></td>
+                    <td><span data-bind="text: notifyMethod"></span></td>
+                    <td><span data-bind="text: notifyStaffName"></span></td>
+                    <td><span data-bind="text: notifyInfo"></span></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+        <!-- ko ifnot: notifications().length > 0 -->
+        <p>No notifications have been entered.</p>
+        <!-- /ko-->
+    </section>
+
+
+    <section>
+        <header><h3>Medical Assessments</h3></header>
+
+        <!-- ko if: medicals().length > 0-->
+        <table>
+            <thead>
+                <tr>
+                    <td>Assessed By</td>
+                    <td>Date</td>
+                    <td>Assessment</td>
+                    <td>Completed</td>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: medicals">
+                <tr>
+                    <td><span data-bind="text: staffName"></span></td>
+                    <td><span data-bind="text: moment(medAssmntDate).format('M/D/YYYY')"></span></td>
+                    <td><span data-bind="text: medAssmnt"></span></td>
+                    <td>
+                        <!-- ko ifnot: isOpen -->
+                        <span>Completed</span>
+                        @*<span data-bind="text: moment(completedStamp).format('M/D/YYYY h:mm a')"></span>*@
+                        <!-- /ko -->
+                        <!-- ko if: isOpen -->
+                        <span>Assessment Not Compeleted</span>
+                        <!-- /ko -->
+                    </td>
+                    <td>
+                        <button title="View Medical Assessment" class="action-button" data-bind="click: $parent.ViewMedical"><span class="icon-binoculars"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- /ko -->
+        <!-- ko ifnot: medicals().length > 0 -->
+        <p>No medical assessments have been completed.</p>
+        <!-- /ko-->
+    </section>
+
+   
+
+    <section>
+        <header><h3>Administrative Notes/Comments</h3></header>
+
+        <button data-bind="click: AddAdminComment"><span class="icon-bubbles4"></span> Add Administrative Comment</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Administrator</th>
+                    <th>Date/Time Created</th>
+                    <th>Notes/Comments</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: adminComments">
+                <tr>
+                    <td><span data-bind="text: staffName"></span></td>
+                    <td><span data-bind="text: moment(commentStamp).format('M/D/YYYY h:mm a')"></span></td>
+                    <td><span data-bind="text: comments"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    
+
+</div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        _reportId = @ViewBag.ReportId;
+        _referrer = '@(ViewBag.Referrer)';
+
+        _incidentDate = null;
+
+
+        var ReportViewModel = function () {
+            var self = this;
+
+            // HEADER BINDINGS
+            self.clientName = ko.observable();
+            self.programTitle = ko.observable();
+            self.createdByName = ko.observable();
+            self.createdStamp = ko.observable();
+            self.incidentDate = ko.observable();
+            self.currentStatus = ko.observable();
+            self.statusId = ko.observable(0);
+            self.isApproximate = ko.observable();
+
+            self.incidentDetailId = ko.observable();
+            self.incidentDetails = ko.observable();
+            self.incidentComments = ko.observable();
+            self.childActivity = ko.observable();
+            self.protectiveActions = ko.observable();
+
+            self.staffs = ko.observableArray();
+            self.reportableIncidents = ko.observableArray();
+            self.significantIncidents = ko.observableArray();
+            self.internalEvents = ko.observableArray();
+            self.restraints = ko.observableArray();
+            self.attachedPhotos = ko.observableArray();
+            self.attachedDocuments = ko.observableArray();
+            self.notifications = ko.observableArray();
+            self.medicals = ko.observableArray();
+            self.adminComments = ko.observableArray();
+
+
+            self.GetHeader = function () {
+
+                Get('/api/reports/header/' + _reportId, null, function (data) {
+                    self.clientName(data.clientName);
+                    self.programTitle(data.programTitle);
+                    self.createdByName(data.createdByName);
+                    self.createdStamp(data.createdStamp);
+                    self.incidentDate(moment(data.incidentDate).format('M/D/YYYY'));
+                    self.currentStatus(data.currentStatus);
+                    self.statusId(data.statusId);
+                    self.isApproximate(data.isApproximate);
+                    _incidentDate = moment(data.incidentDate).format('M/D/YYYY');
+
+                    var userId = window.localStorage.getItem('userId');
+                    //if (userId == data.userId) {
+                    self.GetDetails();
+                    self.GetStaff();
+                    self.GetReportableIncidents();
+                    self.GetSignificantIncidents();
+                    self.GetInternalEvents();
+                    self.GetRestraints();
+                    self.GetAttachedPhotos();
+                    self.GetAttachedDocuments();
+                    self.GetNotifications();
+                    self.GetMedicals();
+                    self.GetAdminComments();
+                    //}
+                    //else {
+                    //    window.location = "/Errors/NotAuthorized";
+                    //}
+
+                });
+            };
+
+
+            self.GetDetails = function () {
+                Get('/api/details/' + _reportId, null, function (data) {
+                    if (data) {
+                        self.incidentDetailId(data.incidentDetailId);
+                        self.incidentDetails(data.incidentDetails);
+                        self.incidentComments(data.incidentComments);
+                        self.childActivity(data.childActivity);
+                        self.protectiveActions(data.protectiveActions);
+                    }
+                });
+            };
+
+
+
+            self.GetStaff = function () {
+                Get('/api/staff/' + _reportId, null, function (data) {
+                    self.staffs(data);
+                });
+            };
+
+
+
+
+            self.GetReportableIncidents = function () {
+                Get('/api/types/selected/' + _reportId + '/1', null, function (data) { self.reportableIncidents(data); });
+            };
+
+
+
+            self.GetSignificantIncidents = function () {
+                Get('/api/types/selected/' + _reportId + '/2', null, function (data) { self.significantIncidents(data); });
+            };
+
+
+
+            self.GetInternalEvents = function () {
+                Get('/api/types/selected/' + _reportId + '/3', null, function (data) { self.internalEvents(data); });
+            };
+
+
+            self.GetRestraints = function () {
+                Get('/api/restraints/' + _reportId, null, function (data) { self.restraints(data); });
+            };
+
+
+
+            self.AddPhoto = function () {
+                OpenDialog('/Attachments/Photo', function () { self.GetAttachedPhotos(); });
+            };
+
+
+
+            self.AddDocument = function () {
+                OpenDialog('/Attachments/Document', function () { self.GetAttachedDocuments(); });
+            };
+
+
+
+            self.GetAttachedPhotos = function () {
+
+                Get('/api/photos/' + _reportId, null, function (data) {
+                    self.attachedPhotos(data);
+                    ShowPhotoGallery('fb-photos');
+                });
+            };
+
+
+            self.EditPhoto = function(photo) {
+                OpenDialog('/Attachments/Edit/' + photo.incidentAttachmentId, function(){ self.GetAttachedPhotos();});
+            };
+
+
+            self.VoidPhoto = function (photo) {
+                Delete('/api/attachments/' + photo.incidentAttachmentId, null, function () {
+                    WriteToLog(self.incidentId(), storage.getItem('userId'), storage.getItem('stationInfo'), 'Attachment voided: ' + photo.incidentAttachmentId);
+                    self.GetAttachedPhotos();
+                });
+            };
+
+
+            self.GetAttachedDocuments = function () {
+
+                Get('/api/documents/' + _reportId, null, function (data) {
+                    self.attachedDocuments(data);
+                });
+            };
+
+
+
+            self.AddNotification = function () {
+               var url = '/Notifications?reportTypeId=1&notificationId=0';
+                OpenDialog(url, function () { self.GetNotifications(); });
+            };
+
+
+
+            self.GetNotifications = function () {
+                Get('/api/notifications/' + _reportId, null, function (data) {
+                    self.notifications(data);
+                });
+
+            };
+
+
+            self.GetMedicals = function() {
+                Get('/api/medicals/report/' + _reportId, null, function(data) {
+                    self.medicals(data);
+                });
+            }
+
+            self.ViewMedical = function(medical) {
+                OpenDialog('/Medicals/View/' + medical.incidentMedicalId);
+            };
+
+
+            self.GetAdminComments = function() {
+                Get('/api/comments/' + _reportId, null, function(data)  {
+                    self.adminComments(data);
+                });
+            };
+
+
+            self.AddAdminComment = function() {
+                OpenDialog('/Comments/', function() { self.GetAdminComments() });
+            };
+
+
+
+            self.CloseReport = function () {
+                window.location="/Admin";
+            };
+
+
+            self.LockReport = function() {
+                var storage = window.localStorage;
+                var reportStatus = {
+                    incidentId: _reportId,
+                    currentUser: storage.getItem('userId'),
+                    lastModifiedBy: storage.getItem('userId')
+                };
+                Post('/api/reports/admin/lock', reportStatus, function() { self.statusId(5); });
+            };
+
+
+            self.ViewDiary = function() {
+                OpenDialog('/Admin/Diary', function () {
+
+                });
+            };
+
+            self.ApproveReport = function () {
+                OpenDialog('/Admin/FinalApprove', function () {
+
+                });
+            };
+
+
+            self.PreviewReport = function () {
+                window.open('/Print/Residential/' + _reportId);
+            };
+
+
+
+            self.VoidReport = function() {
+                Get('/api/reports/void/' + _reportId, null, function(data)  {
+                    if (_referrer != '')
+                    {
+                        window.location = _referrer;
+                    }
+                    else
+                    {
+                        window.location = '/Admin';
+                    }
+                });
+            };
+
+
+
+            self.Initialize = function () {
+
+                var storage = window.localStorage;
+                WriteToLog(_reportId, storage.getItem('userId'), storage.getItem('stationInfo'), "Report opened by Administrator.");
+
+                self.GetHeader();
+
+
+
+            };
+
+
+            self.Initialize();
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ReportViewModel());
+        });
+
+
+    </script>
+}

@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Incident Report";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+@section Sidebar {
+    <nav>
+        <ul>
+            <li><a data-bind="click: CloseReport"><span class="icon-home3"></span> Home Page</a></li>
+            <li><a data-bind="click: SaveReport"><span class="icon-floppy-disk"></span> Save Report</a></li>
+            <li><a data-bind="click: ApproveReport"><span class="icon-checkmark"></span> Approve Report</a></li>
+            <li><a data-bind="click: PreviewReport"><span class="icon-printer"></span> Preview/Print Report</a></li>
+        </ul>
+    </nav>
+}
+
+
+<div id="report-details">
+    <h1>Incident Report</h1>
+
+    <div class="report-scroll-header">
+        <h2 data-bind="text: clientName"></h2>
+        <div>
+            <span>Incident Date:</span>
+            <!-- ko if: isApproximate -->
+            <span data-bind="text: moment(incidentDate()).format('MMM YYYY') + ' (Approximate)'"></span>
+            <!-- /ko -->
+            <!-- ko ifnot: isApproximate -->
+            <span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span>
+            <!-- /ko -->
+        </div>
+    </div>
+
+    <section class="report-header">
+
+        <header><h2 data-bind="text: clientName"></h2></header>
+        <div class="report-header-info">
+            <div>
+                <span>Incident Date:</span>
+                <!-- ko if: isApproximate -->
+                <span data-bind="text: moment(incidentDate()).format('MMM YYYY') + ' (Approximate)'"></span>
+                <!-- /ko -->
+                <!-- ko ifnot: isApproximate -->
+                <span data-bind="text: moment(incidentDate()).format('M/D/YYYY h:mm a')"></span>
+                <!-- /ko -->
+            </div>
+            <div><span>Program:</span> <span data-bind="text: programTitle"></span></div>
+            <div><span>Location:</span> <span data-bind="text: incidentLocation"></span></div>
+            <div><span>Created By:</span> <span data-bind="text: createdByName"></span></div>
+            <div><span>Created Date/Time:</span> <span data-bind="text: moment(createdStamp()).format('M/D/YYYY h:mm a')"></span></div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="form-control"><label>Level of Harm: <input type="number" data-bind="value: harmLevel" placeholder="**Required**" required /></label></div>
+        <div class="form-control"><label>Level of Risk: <input type="number" data-bind="value: riskLevel" placeholder="**Required**" required /></label></div>
+
+        <div class="form-control">
+            <label>
+                Contact Information: <i>Include name, address, and telephone number(s) of individual involved:</i>
+                <textarea rows="10" cols="120" spellcheck="true" data-bind="value: incidentComments"></textarea>
+            </label>
+        </div>
+    </section>
+
+
+    <section>
+        <header ><h3>Type of Incident</h3></header>
+
+        <div class="form-control check-list" data-bind="foreach: incidentTypes">
+            <label><input type="radio" name="incident-type" data-bind="value: incidentTypeId" /> <span data-bind="text: incidentTypeText"></span></label>
+        </div>
+
+    </section>
+
+
+
+    <section>
+        
+        <div class="form-control">
+            <label>Description of Event and Interventions: <br /><i>Include information regarding those involved.</i> <textarea rows="10" cols="120" spellcheck="true" data-bind="value: incidentDetails"></textarea></label>
+        </div>
+    </section>
+
+    
+
+</div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        _reportId = @(ViewBag.ReportId);
+        _incidentDate = null;
+
+
+        var reportViewModel;
+
+
+
+        var ReportDetailViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.userValidated = ko.observable(false);
+
+            // HEADER BINDINGS
+            self.incidentId = ko.observable(@(ViewBag.ReportId));
+            self.clientName = ko.observable();
+            self.programTitle= ko.observable();
+            self.createdByName = ko.observable();
+            self.createdStamp = ko.observable();
+            self.incidentDate = ko.observable();
+            self.incidentLocation = ko.observable();
+            self.isApproximate = ko.observable();
+
+            self.harmLevel = ko.observable();
+            self.riskLevel = ko.observable();
+            self.contactInfo = ko.observable();
+            self.incidentDetails = ko.observable('');
+
+            self.incidentTypes = ko.observableArray();
+
+            self.currentUser = ko.observable();
+
+
+            self.GetHeader = function () {
+
+                Get('/api/reports/header/' + _reportId, null, function(data) {
+                    self.incidentId(data.incidentId);
+                    self.clientName(data.clientName);
+                    self.programTitle(data.programTitle);
+                    self.incidentLocation(data.incidentLocation);
+                    self.createdByName(data.createdByName);
+                    self.createdStamp(data.createdStamp);
+                    self.incidentDate(moment(data.incidentDate));
+                    self.isApproximate(data.isApproximate);
+                    _incidentDate = moment(data.incidentDate);
+
+                    self.currentUser(window.localStorage.getItem('userId'));
+
+                    if (self.userValidated())
+                    {
+                        //self.GetDetails();
+                        //self.GetStaff();
+                        self.GetReportableIncidents();
+                        //self.GetSignificantIncidents();
+                        //self.GetInternalEvents();
+                        //self.GetRestraints();
+                        //self.GetAttachedPhotos();
+                        //self.GetAttachedDocuments();
+                        //self.GetNotifications();
+                    }
+                    else
+                    {
+                        window.location = "/Errors/NotAuthorized";
+                    }
+
+                });
+            };
+
+
+
+            self.GetReportableIncidents = function() {
+                Get('/api/types/' + _reportId + '/2/0', null, function(data) { self.incidentTypes(data);});
+            };
+
+
+
+
+
+
+            self.CloseReport = function() {
+                window.location = "/";
+            };
+
+
+
+            self.SaveReport = function() {
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+                    var userId = storage.getItem('userId');
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+
+
+            self.ApproveReport = function() {
+                OpenDialog('/Report/FinalApprove', function() {
+
+                });
+            };
+
+
+
+
+            self.PreviewReport = function() {
+                window.open('/Print/Residential/' + _reportId);
+            };
+
+
+            self.Initialize = function() {
+
+                var storage = window.localStorage;
+
+                Get('/api/report/user/validate?r=' + self.incidentId() + '&u=' + storage.getItem('userId'), null, function(validated) {
+                    self.userValidated(validated);
+                    if (validated) {
+                        WriteToLog(_reportId, storage.getItem('userId'), storage.getItem('stationInfo'), "Report opened by User for editing.");
+                        self.GetHeader();
+                    }
+                    else
+                    {
+                        WriteToLog(_reportId, storage.getItem('userId'), storage.getItem('stationInfo'), "User attempted to access report.");
+                        ShowErrorNotification("You do not have access to this report.", function() {
+                            window.location = '/';
+                        });
+
+                    }
+
+                });
+
+
+
+
+
+
+
+
+            };
+
+
+            self.Initialize();
+
+        };
+
+
+
+        $(document).ready(function () {
+            reportViewModel = new ReportDetailViewModel();
+            ko.applyBindings(reportViewModel);
+        });
+
+    </script>
+}

@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "Restraints";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+<div class="flex-form">
+
+
+
+    <div class="form-control">
+        <label>Specify Type: <input type="text" size="30" spellcheck="true" placeholder="**Required**" data-bind="value: restraintType" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Start: <input type="text" size="20" placeholder="**Required**" data-inputmask="'mask':'99:99 AA'" data-bind="value: restraintStart" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>End: <input type="text" size="20" placeholder="**Required**" data-bind="value: restraintEnd" required /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Length of Intervention (in minutes): <input type="text" size="20" spellcheck="true" placeholder="**Required**" data-bind="value: restraintLength() + ' minutes'" /></label>
+    </div>
+
+    <div class="form-control">
+        <label>Post-Restraint Process: <textarea rows="10" cols="120" placeholder="**Required**" spellcheck="true" data-bind="value: postProcess" required></textarea></label>
+    </div>
+
+</div>
+
+
+<button data-bind="click: SaveRestraint"><span class="icon-floppy-disk"></span> Save</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+
+
+
+        var RestraintViewModel = function () {
+            var self = this;
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+            self.restraintType = ko.observable().extend({ required: { message: 'Please indicate the type of restraint used.' } });
+            self.restraintStart = ko.observable().extend({
+                required: true,
+                pattern: {
+                    message: 'Input must be in the form of xx:xx AM',
+                    params: patterns.time
+                }
+            });
+            self.restraintEnd = ko.observable().extend({
+                required: true,
+                pattern: {
+                    message: 'Input must be in the form of xx:xx AM',
+                    params: patterns.time
+                }
+            });
+            self.postProcess = ko.observable().extend({ required: true });
+
+            self.startDateTime = ko.observable();
+            self.endDateTime = ko.observable();
+
+            self.restraintLength = ko.computed(function () {
+
+                self.startDateTime(moment(parent.reportViewModel.incidentDate().format('M/D/YYYY') + ' ' + self.restraintStart()));
+                self.endDateTime(moment(parent.reportViewModel.incidentDate().format('M/D/YYYY') + ' ' + self.restraintEnd()));
+
+                if (self.endDateTime() < self.startDateTime()) {
+                    self.endDateTime(moment(moment(self.endDateTime()).add(1, 'days')));
+                }
+                var duration = moment.duration(self.endDateTime().diff(self.startDateTime()));
+                var minutes = duration.asMinutes();
+
+                return minutes;
+            });
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+            self.SaveRestraint = function () {
+
+                if (self.errors().length == 0) {
+
+
+                    var restraint = {
+                        incidentId: parent.reportViewModel.incidentId(),
+                        restraintType: self.restraintType(),
+                        restraintStart: self.startDateTime().format('M/D/YYYY H:mm'),
+                        restraintEnd: self.endDateTime().format('M/D/YYYY H:mm'),
+                        restraintLength: self.restraintLength(),
+                        postProcess: self.postProcess()
+                    };
+
+                    Post('/api/restraints', restraint, function (data) {
+                        parent.$.fancybox.close();
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+
+
+
+
+            };
+
+
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new RestraintViewModel());
+        });
+    </script>
+}
+

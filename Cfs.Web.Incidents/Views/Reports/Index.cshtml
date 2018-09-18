@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h1>CFS Incident Reports</h1>
+
+<h2>Reports</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Report</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Open Reports</td>
+            <td>Lists all open reports.</td>
+            <td><button class="action-button" title="Print Report" data-bind="click: RunReport.bind($data, 'OpenReports')"><span class="icon-printer"></span></button></td>
+        </tr>
+        
+    </tbody>
+</table>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var ReportsViewModel = function () {
+            var self = this;
+
+            self.RunReport = function (report) {
+                alert(report);
+                switch (report) {
+                    case "OpenReports":
+
+                        break;
+                }
+            }
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ReportsViewModel());
+        });
+    </script>
+}

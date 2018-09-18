@@ -1,0 +1,537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1CF7334C-8993-4E13-8BF5-929B87E7D8CC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Cfs.Web.Incidents</RootNamespace>
+    <AssemblyName>Cfs.Web.Incidents</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.2\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.2\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.2\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\style.xml" />
+    <Content Include="Content\css\default.css" />
+    <Content Include="Content\css\fonts.css" />
+    <Content Include="Content\css\ie.css" />
+    <Content Include="Content\css\jquery-ui.css" />
+    <Content Include="Content\css\jquery-ui.structure.css" />
+    <Content Include="Content\css\jquery-ui.theme.css" />
+    <Content Include="Content\css\jquery.fancybox.css" />
+    <Content Include="Content\css\notifications.css" />
+    <Content Include="Content\css\reset.css" />
+    <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\images\fancybox\blank.gif" />
+    <Content Include="Content\images\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\images\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\images\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\images\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\images\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_flat_30_cccccc_40x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_flat_50_5c5c5c_40x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_glass_20_555555_1x400.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_glass_40_0078a3_1x400.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_inset-soft_25_000000_1x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-bg_inset-soft_30_f58400_1x100.png" />
+    <Content Include="Content\images\jquery-ui\ui-icons_222222_256x240.png" />
+    <Content Include="Content\images\jquery-ui\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\images\jquery-ui\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\images\jquery-ui\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\images\jquery-ui\ui-icons_ffffff_256x240.png" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
+    <Content Include="Content\fonts\Lato-Black.ttf" />
+    <Content Include="Content\fonts\Lato-BlackItalic.ttf" />
+    <Content Include="Content\fonts\Lato-Bold.ttf" />
+    <Content Include="Content\fonts\Lato-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Lato-Hairline.ttf" />
+    <Content Include="Content\fonts\Lato-HairlineItalic.ttf" />
+    <Content Include="Content\fonts\Lato-Italic.ttf" />
+    <Content Include="Content\fonts\Lato-Light.ttf" />
+    <Content Include="Content\fonts\Lato-LightItalic.ttf" />
+    <Content Include="Content\fonts\Lato-Regular.ttf" />
+    <EntityDeploy Include="Models\IncidentDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>IncidentDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\IncidentDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>IncidentDb.edmx</DependentUpon>
+      <LastGenOutput>IncidentDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\IncidentDb.edmx.diagram">
+      <DependentUpon>IncidentDb.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\IncidentDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>IncidentDb.edmx</DependentUpon>
+      <LastGenOutput>IncidentDb.cs</LastGenOutput>
+    </Content>
+    <EntityDeploy Include="Models\AnasaziDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AnasaziDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AnasaziDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AnasaziDb.edmx</DependentUpon>
+      <LastGenOutput>AnasaziDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AnasaziDb.edmx.diagram">
+      <DependentUpon>AnasaziDb.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\AnasaziDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AnasaziDb.edmx</DependentUpon>
+      <LastGenOutput>AnasaziDb.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\NR\Views\web.config" />
+    <None Include="App_Data\ReportTables.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\IncidentsAppPublisher.pubxml" />
+    <Content Include="Scripts\highcharts.exporting.js" />
+    <None Include="Properties\PublishProfiles\IncidentsPublisher_Abila.pubxml" />
+    <None Include="Properties\PublishProfiles\Staging %28local%29.pubxml" />
+    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\app-engine.js" />
+    <Content Include="Scripts\highcharts.js" />
+    <Content Include="Scripts\jquery-2.1.3.js" />
+    <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.hoverIntent.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="Scripts\knockout.map.js" />
+    <Content Include="Scripts\knockout.validation.js" />
+    <Content Include="Scripts\knockout.validation.min.js" />
+    <Content Include="Scripts\modernizr.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\notifications.js" />
+    <Content Include="Scripts\knockout.validation.min.js.map" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\Shared\_LayoutPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\NR\NRAreaRegistration.cs" />
+    <Compile Include="Content\Reports\ResidentialReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResidentialReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Content\Reports\OpenReports.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OpenReports.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Content\Reports\TestReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\API\AgendasController.cs" />
+    <Compile Include="Controllers\API\AnasaziController.cs" />
+    <Compile Include="Controllers\API\AttachmentsController.cs" />
+    <Compile Include="Controllers\API\ChartsController.cs" />
+    <Compile Include="Controllers\API\CommentsController.cs" />
+    <Compile Include="Controllers\API\DetailsController.cs" />
+    <Compile Include="Controllers\API\DirectoryController.cs" />
+    <Compile Include="Controllers\API\DocumentsController.cs" />
+    <Compile Include="Controllers\API\LogController.cs" />
+    <Compile Include="Controllers\API\MedicalsController.cs" />
+    <Compile Include="Controllers\API\NotificationsController.cs" />
+    <Compile Include="Controllers\API\NotifyPartiesController.cs" />
+    <Compile Include="Controllers\API\PhotosController.cs" />
+    <Compile Include="Controllers\API\ProgramsController.cs" />
+    <Compile Include="Controllers\API\ProgramNotifiersController.cs" />
+    <Compile Include="Controllers\API\ReportsController.cs" />
+    <Compile Include="Controllers\API\RestraintsController.cs" />
+    <Compile Include="Controllers\API\SearchController.cs" />
+    <Compile Include="Controllers\API\SessionController.cs" />
+    <Compile Include="Controllers\API\SignaturesController.cs" />
+    <Compile Include="Controllers\API\StaffController.cs" />
+    <Compile Include="Controllers\API\TypesController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
+    <Compile Include="Controllers\AttachmentsController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
+    <Compile Include="Controllers\MedicalsController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RestraintsController.cs" />
+    <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\SupervisorController.cs" />
+    <Compile Include="Controllers\TypesController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminComment.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AnasaziDb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AnasaziDb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AnasaziDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AnasaziDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AnasaziDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AnasaziDb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ApprovalStatus.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CDASSIGN.cs">
+      <DependentUpon>AnasaziDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CDCLIENT.cs">
+      <DependentUpon>AnasaziDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Converters\Encryption.cs" />
+    <Compile Include="Models\Converters\ListToDataSet.cs" />
+    <Compile Include="Models\CostCenter.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentAttachment.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentCategory.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentDb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IncidentDb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentDb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IncidentDb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentDetail.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentProgram.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentReport.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentStaff.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IncidentType.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medical.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notification.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotifyParty.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Presentation\Agendas.cs" />
+    <Compile Include="Models\Presentation\Anasazi.cs" />
+    <Compile Include="Models\Presentation\Attachments.cs" />
+    <Compile Include="Models\Presentation\Charts.cs" />
+    <Compile Include="Models\Presentation\Comments.cs" />
+    <Compile Include="Models\Presentation\Directory.cs" />
+    <Compile Include="Models\Presentation\Locks.cs" />
+    <Compile Include="Models\Presentation\Logs.cs" />
+    <Compile Include="Models\Presentation\Medicals.cs" />
+    <Compile Include="Models\Presentation\Notifications.cs" />
+    <Compile Include="Models\Presentation\Notifiers.cs" />
+    <Compile Include="Models\Presentation\Reports.cs" />
+    <Compile Include="Models\Presentation\ReportSigns.cs" />
+    <Compile Include="Models\Presentation\SearchCriteria.cs" />
+    <Compile Include="Models\Presentation\Types.cs" />
+    <Compile Include="Models\Presentation\Users.cs" />
+    <Compile Include="Models\ProgramNotifier.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportIncident.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportLog.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportSign.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportSigType.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportStatus.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportType.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Restraint.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>IncidentDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\Residential.cshtml" />
+    <Content Include="Views\Shared\_DialogLayout.cshtml" />
+    <Content Include="Views\Report\Create.cshtml" />
+    <Content Include="Views\Report\_Header.cshtml" />
+    <Content Include="Views\Medicals\Index.cshtml" />
+    <Content Include="Views\Attachments\Photo.cshtml" />
+    <Content Include="Views\Attachments\Document.cshtml" />
+    <Content Include="Views\Report\FinalApprove.cshtml" />
+    <Content Include="Views\Medicals\Help.cshtml" />
+    <Content Include="Views\Shared\_HomeNavMenu.cshtml" />
+    <Content Include="Views\Medicals\New.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Types\Reportable.cshtml" />
+    <Content Include="Views\Types\Significant.cshtml" />
+    <Content Include="Views\Types\Internal.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Restraints\Index.cshtml" />
+    <Content Include="Views\Types\AdditionalInfo.cshtml" />
+    <Content Include="Views\Supervisor\Review.cshtml" />
+    <Content Include="Views\Errors\NotAuthorized.cshtml" />
+    <Content Include="Views\Shared\_Highcharts.cshtml" />
+    <Content Include="Views\Supervisor\FinalApprove.cshtml" />
+    <Content Include="Views\Admin\Review.cshtml" />
+    <Content Include="Views\Admin\FinalApprove.cshtml" />
+    <Content Include="Views\Admin\Open.cshtml" />
+    <Content Include="Views\Admin\Search.cshtml" />
+    <Content Include="Views\Admin\Help.cshtml" />
+    <Content Include="Views\Admin\Diary.cshtml" />
+    <Content Include="Views\Medicals\Edit.cshtml" />
+    <Content Include="Views\Medicals\FinalApprove.cshtml" />
+    <Content Include="Views\Comments\Index.cshtml" />
+    <Content Include="Views\Home\Sandbox.cshtml" />
+    <Content Include="Views\Report\Search.cshtml" />
+    <Content Include="Views\Admin\Agendas.cshtml" />
+    <Content Include="Views\Attachments\Edit.cshtml" />
+    <Content Include="Views\Staff\Validate.cshtml" />
+    <Content Include="Views\Shared\_SmallDialogLayout.cshtml" />
+    <Content Include="Views\Medicals\View.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Report\Show.cshtml" />
+    <Content Include="Views\Admin\Notifiers.cshtml" />
+    <Content Include="Views\Report\NonResidential.cshtml" />
+    <Content Include="Views\Admin\AllReports.cshtml" />
+    <Content Include="Views\Admin\Show.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\NR\Controllers\" />
+    <Folder Include="Areas\NR\Models\" />
+    <Folder Include="Areas\NR\Views\Shared\" />
+    <Folder Include="Content\attachments\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Views\Mail\" />
+    <Folder Include="Views\Print\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Reports\ResidentialReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ResidentialReport.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Reports\OpenReports.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>OpenReports.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\Reports\TestReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>TestReport.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>54858</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:54858/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

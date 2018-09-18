@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Validate Signature";
+    Layout = "~/Views/Shared/_SmallDialogLayout.cshtml";
+}
+
+
+<div class="form-control">
+    <label>
+        Signature:
+        <input type="password" size="30" maxlength="30" required placeholder="Enter your CFS password." data-bind="value: signature"/>
+    </label>
+</div>
+
+
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+
+        var ValidateViewModel = function () {
+            var self = this;
+
+            self.signature = ko.observable();
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+        };
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new ValidateViewModel());
+        });
+    </script>
+}

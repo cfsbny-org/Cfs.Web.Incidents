@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Administrative Note/Comment";
+    Layout = "~/Views/Shared/_DialogLayout.cshtml";
+}
+
+
+<div class="form-control">
+    <label>Notes/Comments
+        <textarea data-bind="value: comment" rows="10" cols="120" spellcheck="true" required placeholder="Add notes or comments about this incident report."></textarea>
+    </label>
+</div>
+
+
+<button data-bind="click: SaveComment"><span class="icon-floppy-disk"></span> Save</button>
+<button data-bind="click: CloseDialog"><span class="icon-cross"></span> Cancel</button>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+        var CommentViewModel = function () {
+            var self = this;
+
+
+            self.errors = ko.validation.group(self, { deep: true, observable: false });
+
+
+            self.comment = ko.observable().extend({ required: true });
+
+
+
+            self.CloseDialog = function () {
+                parent.$.fancybox.close();
+            };
+
+
+
+            self.SaveComment = function () {
+
+                if (self.errors().length == 0) {
+
+                    var storage = window.localStorage;
+        
+                    var comment = {
+                        adminCommentId: 0,
+                        incidentId: parent._reportId,
+                        adminUserId: storage.getItem('userId'),
+                        adminCommentText: self.comment(),
+                        adminCommentStamp: moment(new Date()).format('M/D/YYYY H:mm')
+                    };
+
+                    Post('/api/comments', comment, function () {
+                        parent.$.fancybox.close();
+                    });
+                }
+                else {
+                    ShowWarningNotification('Please check your submission.');
+                    self.errors.showAllMessages();
+                }
+            };
+
+
+        };
+
+
+
+        $(document).ready(function () {
+            ko.applyBindings(new CommentViewModel());
+        });
+
+        
+    </script>
+}
+
